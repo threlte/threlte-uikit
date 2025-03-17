@@ -1,29 +1,34 @@
 <script lang="ts">
-  import { Object3D } from 'three'
+  import type { Snippet } from 'svelte'
+  import { Group, type Texture } from 'three'
   import { T } from '@threlte/core'
-  import { type SvgProperties, createSvgState, setupSvg } from '@pmndrs/uikit/internals'
+  import {
+    createImageState,
+    setupImage,
+    type ImageProperties,
+  } from '@pmndrs/uikit/internals'
+  import type { Signal } from '@preact/signals-core'
   import { createParent, useParent } from '$lib/useParent'
   import { usePropertySignals } from '$lib/usePropSignals.svelte'
   import { useInternals, type ComponentInternals } from '$lib/useInternals'
-  import AddHandlers from '../AddHandlers.svelte'
   import type { EventHandlers } from '$lib/Events'
-  import type { Snippet } from 'svelte'
+  import { createHandlers } from '$lib/createHandlers.svelte'
 
-  type Props = SvgProperties & {
+  type Props = Omit<ImageProperties, 'onClick'> & {
     ref?: ComponentInternals
     name?: string
-    src: string
+    src?: string | Texture | Signal<Texture>
     children?: Snippet
   } & EventHandlers
 
   let { ref = $bindable(), name, children, ...rest }: Props = $props()
 
   const parent = useParent()
-  const outerRef = new Object3D()
-  const innerRef = new Object3D()
-  const { style, properties, defaults } = usePropertySignals<SvgProperties>(() => rest)
+  const outerRef = new Group()
+  const innerRef = new Group()
+  const { style, properties, defaults } = usePropertySignals<ImageProperties>(() => rest)
 
-  const internals = createSvgState(
+  const internals = createImageState(
     parent,
     { current: outerRef },
     style,
@@ -32,13 +37,16 @@
   )
   createParent(internals)
 
-  $effect.pre(() => {
-    internals.interactionPanel.name = name ?? ''
-  })
+  ref = useInternals<ImageProperties>(
+    parent.root.pixelSize,
+    style,
+    internals,
+    internals.interactionPanel
+  )
 
   $effect.pre(() => {
     const abortController = new AbortController()
-    setupSvg(
+    setupImage(
       internals,
       parent,
       style,
@@ -50,20 +58,23 @@
     return () => abortController.abort()
   })
 
-  ref = useInternals(parent.root.pixelSize, style, internals, internals.interactionPanel)
+  $effect.pre(() => {
+    internals.interactionPanel.name = name ?? ''
+  })
+
+  const allHandlers = createHandlers(internals.handlers, () => rest)
 </script>
 
-<AddHandlers
-  ref={outerRef}
-  handlers={internals.handlers}
-  userHandlers={rest}
+<T
+  is={outerRef}
+  matrixAutoUpdate={false}
+  {...allHandlers.current}
 >
   <T is={internals.interactionPanel} />
-  <T is={internals.centerGroup} />
   <T
     is={innerRef}
     matrixAutoUpdate={false}
   >
     {@render children?.()}
   </T>
-</AddHandlers>
+</T>

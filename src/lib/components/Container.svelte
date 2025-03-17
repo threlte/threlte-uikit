@@ -1,20 +1,20 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Group } from 'three'
+  import { Object3D } from 'three'
   import { T } from '@threlte/core'
   import {
     type ContainerProperties,
     createContainerState,
     setupContainer,
   } from '@pmndrs/uikit/internals'
-  import { createParent, useParent } from '../../useParent'
-  import { usePropertySignals } from '../../usePropSignals.svelte'
-  import { useInternals, type ComponentInternals } from '../../useInternals'
-  import AddHandlers from '../AddHandlers.svelte'
+  import { createParent, useParent } from '$lib/useParent'
+  import { usePropertySignals } from '$lib/usePropSignals.svelte'
+  import { useInternals, type ComponentInternals } from '$lib/useInternals'
   import type { EventHandlers } from '$lib/Events'
+  import { createHandlers } from '$lib/createHandlers.svelte'
 
   type Props = ContainerProperties & {
-    ref?: ComponentInternals
+    ref?: ComponentInternals<ContainerProperties>
     name?: string
     children?: Snippet
   } & EventHandlers
@@ -25,8 +25,8 @@
   const { style, properties, defaults } = usePropertySignals<ContainerProperties>(
     () => rest
   )
-  const outerRef = new Group()
-  const innerRef = new Group()
+  const outerRef = new Object3D()
+  const innerRef = new Object3D()
 
   const internals = createContainerState(
     parent,
@@ -61,12 +61,14 @@
     internals,
     internals.interactionPanel
   )
+
+  const allHandlers = createHandlers(internals.handlers, () => rest)
 </script>
 
-<AddHandlers
-  ref={outerRef}
-  handlers={internals.handlers}
-  userHandlers={rest}
+<T
+  is={outerRef}
+  matrixAutoUpdate={false}
+  {...allHandlers.current}
 >
   <T is={internals.interactionPanel} />
   <T
@@ -75,4 +77,4 @@
   >
     {@render children?.()}
   </T>
-</AddHandlers>
+</T>

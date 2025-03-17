@@ -90,8 +90,8 @@ export const useInternals = <T, Additional = object>(
     scrollPosition?: Signal<Vector2Tuple>
     mergedProperties: Signal<MergedProperties>
   },
-  interactionPanel: Mesh | null,
-  additional?: O
+  interactionPanel: Mesh,
+  additional?: Additional
 ): ComponentInternals<T> => {
   const {
     scrollPosition,
@@ -102,6 +102,7 @@ export const useInternals = <T, Additional = object>(
     size,
     maxScrollPosition,
   } = internals
+
   return {
     isVisible: internals.isVisible,
     setStyle: (style: T | undefined, replace?: boolean) =>
@@ -118,10 +119,9 @@ export const useInternals = <T, Additional = object>(
     globalMatrix,
     maxScrollPosition,
     size,
-    interactionPanel:
-      interactionPanel instanceof Mesh ? interactionPanel : interactionPanel.current!,
+    interactionPanel,
     scrollPosition,
     isClipped: internals.isClipped,
-    ...(additional as O),
+    ...(additional as Additional),
   }
 }

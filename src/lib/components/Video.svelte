@@ -1,16 +1,16 @@
 <script lang="ts">
-  import Image from '../Image/Image.svelte'
+  import type { Snippet } from 'svelte'
   import { SRGBColorSpace, VideoTexture } from 'three'
   import { useThrelte } from '@threlte/core'
   import {
     setupVideoElementInvalidation,
     updateVideoElement,
+    type VideoProperties,
   } from '@pmndrs/uikit/internals'
-  import type { VideoProperties } from '@pmndrs/uikit/internals'
+  import { signal } from '@preact/signals-core'
+  import Image from './Image.svelte'
   import type { EventHandlers } from '$lib/Events'
   import type { ComponentInternals } from '$lib/useInternals'
-  import type { Snippet } from 'svelte'
-  import { signal } from '@preact/signals-core'
 
   type Props = VideoProperties & {
     ref?: ComponentInternals
@@ -38,7 +38,7 @@
 
   const { invalidate } = useThrelte()
 
-  const texture = signal<VideoTexture | undefined>()
+  const texture = signal<VideoTexture>()
 
   let aspectRatio = $state(1)
 

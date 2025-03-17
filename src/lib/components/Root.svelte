@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
+  import { Object3D } from 'three'
   import {
     DEFAULT_PIXEL_SIZE,
     type RootProperties,
@@ -7,16 +9,15 @@
     reversePainterSortStable,
     setupRoot,
   } from '@pmndrs/uikit/internals'
-  import { Group } from 'three'
   import { T, useThrelte, useTask } from '@threlte/core'
   import { computed, signal } from '@preact/signals-core'
   import { createParent } from '$lib/useParent'
   import { usePropertySignals } from '$lib/usePropSignals.svelte'
   import { useInternals } from '$lib/useInternals'
-  import AddHandlers from '../AddHandlers.svelte'
   import type { EventHandlers } from '$lib/Events'
   import type { ComponentInternals } from '$lib/useInternals'
-  import type { Snippet } from 'svelte'
+
+  import { createHandlers } from '$lib/createHandlers.svelte'
 
   type Props = RootProperties & {
     pixelSize?: number
@@ -38,8 +39,8 @@
 
   let whileOnFrameRef = false
 
-  const outerRef = new Group()
-  const innerRef = new Group()
+  const outerRef = new Object3D()
+  const innerRef = new Object3D()
 
   const { style, properties, defaults } = usePropertySignals<RootProperties>(() => rest)
 
@@ -99,12 +100,14 @@
       stage: scheduler.createStage(Symbol('uikit-stage'), { before: renderStage }),
     }
   )
+
+  const allHandlers = createHandlers(internals.handlers, () => rest)
 </script>
 
-<AddHandlers
-  ref={outerRef}
-  handlers={internals.handlers}
-  userHandlers={rest}
+<T
+  is={outerRef}
+  matrixAutoUpdate={false}
+  {...allHandlers.current}
 >
   <T is={internals.interactionPanel} />
   <T
@@ -113,4 +116,4 @@
   >
     {@render children?.()}
   </T>
-</AddHandlers>
+</T>

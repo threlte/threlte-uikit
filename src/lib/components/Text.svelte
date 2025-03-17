@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Group } from 'three'
+  import { Object3D } from 'three'
   import { T } from '@threlte/core'
   import { signal } from '@preact/signals-core'
   import {
@@ -12,8 +12,8 @@
   import { useParent } from '$lib/useParent'
   import { usePropertySignals } from '$lib/usePropSignals.svelte'
   import { useInternals, type ComponentInternals } from '$lib/useInternals'
-  import AddHandlers from '../AddHandlers.svelte'
   import type { EventHandlers } from '$lib/Events'
+  import { createHandlers } from '$lib/createHandlers.svelte'
 
   type Props = TextProperties & {
     ref?: ComponentInternals
@@ -24,7 +24,7 @@
   let { ref = $bindable(), name, text, ...rest }: Props = $props()
 
   const parent = useParent()
-  const outerRef = new Group()
+  const outerRef = new Object3D()
 
   const { style, properties, defaults } = usePropertySignals<TextProperties>(() => rest)
 
@@ -59,12 +59,14 @@
   })
 
   ref = useInternals(parent.root.pixelSize, style, internals, internals.interactionPanel)
+
+  const allHandlers = createHandlers(internals.handlers, () => rest)
 </script>
 
-<AddHandlers
-  ref={outerRef}
-  handlers={internals.handlers}
-  userHandlers={rest}
+<T
+  is={outerRef}
+  matrixAutoUpdate={false}
+  {...allHandlers.current}
 >
   <T is={internals.interactionPanel} />
-</AddHandlers>
+</T>

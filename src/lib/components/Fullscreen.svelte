@@ -1,16 +1,16 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
   import { Group, type PerspectiveCamera, type OrthographicCamera } from 'three'
   import { useThrelte, T } from '@threlte/core'
   import { batch, signal } from '@preact/signals-core'
   import { updateSizeFullscreen } from '@pmndrs/uikit/internals'
-  import Root from '../Root/Root.svelte'
-  import { type ComponentInternals } from '../../useInternals'
+  import Root from './Root.svelte'
+  import type { ComponentInternals } from '$lib/useInternals'
   import type { FullscreenProperties } from '@pmndrs/uikit/internals'
   import type { EventHandlers } from '$lib/Events'
-  import type { Snippet } from 'svelte'
 
   type Props = FullscreenProperties & {
-    ref?: ComponentInternals
+    ref?: ComponentInternals<FullscreenProperties>
     name?: string
     distanceToCamera?: number
     pixelSize?: number
