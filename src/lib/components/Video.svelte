@@ -81,7 +81,7 @@
   bind:ref
   {aspectRatio}
   {...rest}
-  src={texture}
+  src={$texture}
 >
   {@render children?.()}
 </Image>

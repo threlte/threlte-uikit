@@ -53,7 +53,11 @@ export const createHandlers = (
       if (userHandler === undefined) {
         obj[userKey] = handler
       } else {
-        obj[userKey] = (event: IntersectionEvent<unknown>) => {
+        obj[userKey] = (
+          event: IntersectionEvent<MouseEvent> &
+            IntersectionEvent<PointerEvent> &
+            IntersectionEvent<WheelEvent>
+        ) => {
           handler?.(event as unknown as ThreeEvent)
           if ('stopped' in event && event.stopped) {
             return
