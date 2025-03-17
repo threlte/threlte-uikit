@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  prettier:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,13 +16,31 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install 🔧
         run: npm ci
 
-      - name: Prettier 💅
-        run: npm run prettier
+      - name: Lint 💅
+        run: npm run check
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install 🔧
+        run: npm ci
+
+      - name: Lint 💅
+        run: npm run lint
 
   unit-test:
     runs-on: ubuntu-latest
@@ -34,7 +52,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install 🔧
         run: npm ci
