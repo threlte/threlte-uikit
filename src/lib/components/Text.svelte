@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Object3D } from 'three'
   import { T } from '@threlte/core'
-  import { signal } from '@preact/signals-core'
   import {
     createTextState,
     setupText,
     type FontFamilies,
     type TextProperties,
   } from '@pmndrs/uikit/internals'
+  import { signal } from '@preact/signals-core'
   import { useFontFamilies } from '$lib/useFontFamilies'
   import { useParent } from '$lib/useParent'
   import { usePropertySignals } from '$lib/usePropSignals.svelte'

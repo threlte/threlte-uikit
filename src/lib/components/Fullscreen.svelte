@@ -1,12 +1,14 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Group, type PerspectiveCamera, type OrthographicCamera } from 'three'
+  import { Object3D, type PerspectiveCamera, type OrthographicCamera } from 'three'
   import { useThrelte, T } from '@threlte/core'
   import { batch, signal } from '@preact/signals-core'
-  import { updateSizeFullscreen } from '@pmndrs/uikit/internals'
+  import {
+    updateSizeFullscreen,
+    type FullscreenProperties,
+  } from '@pmndrs/uikit/internals'
   import Root from './Root.svelte'
   import type { ComponentInternals } from '$lib/useInternals'
-  import type { FullscreenProperties } from '@pmndrs/uikit/internals'
   import type { EventHandlers } from '$lib/Events'
 
   type Props = FullscreenProperties & {
@@ -58,7 +60,7 @@
     )
   })
 
-  const group = new Group()
+  const group = new Object3D()
 
   $effect(() => {
     camera.add(group)

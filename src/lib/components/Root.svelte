@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import { Object3D } from 'three'
+  import { T, useThrelte, useTask } from '@threlte/core'
   import {
     DEFAULT_PIXEL_SIZE,
     type RootProperties,
@@ -9,14 +10,12 @@
     reversePainterSortStable,
     setupRoot,
   } from '@pmndrs/uikit/internals'
-  import { T, useThrelte, useTask } from '@threlte/core'
   import { computed, signal } from '@preact/signals-core'
   import { createParent } from '$lib/useParent'
   import { usePropertySignals } from '$lib/usePropSignals.svelte'
   import { useInternals } from '$lib/useInternals'
   import type { EventHandlers } from '$lib/Events'
   import type { ComponentInternals } from '$lib/useInternals'
-
   import { createHandlers } from '$lib/createHandlers.svelte'
 
   type Props = RootProperties & {

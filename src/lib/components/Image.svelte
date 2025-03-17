@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Group, type Texture } from 'three'
+  import { Object3D, type Texture } from 'three'
   import { T } from '@threlte/core'
   import {
     createImageState,
@@ -24,8 +24,8 @@
   let { ref = $bindable(), name, children, ...rest }: Props = $props()
 
   const parent = useParent()
-  const outerRef = new Group()
-  const innerRef = new Group()
+  const outerRef = new Object3D()
+  const innerRef = new Object3D()
   const { style, properties, defaults } = usePropertySignals<ImageProperties>(() => rest)
 
   const internals = createImageState(

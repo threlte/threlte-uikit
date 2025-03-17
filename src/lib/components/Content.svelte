@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
   import { Object3D } from 'three'
   import { T } from '@threlte/core'
   import {
@@ -11,7 +12,6 @@
   import { useInternals, type ComponentInternals } from '$lib/useInternals'
   import { createHandlers } from '$lib/createHandlers.svelte'
   import type { EventHandlers } from '$lib/Events'
-  import type { Snippet } from 'svelte'
 
   type Props = ContentProperties & {
     ref?: ComponentInternals<ContentProperties>
