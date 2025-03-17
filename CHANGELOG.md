@@ -1,5 +1,11 @@
 # temp
 
+## 1.0.0
+
+### Major Changes
+
+- b6416e0: Rewrite internals in Svelte 5, removes Svelte 4 support
+
 ## 0.5.1
 
 ### Patch Changes
