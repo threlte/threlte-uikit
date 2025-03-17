@@ -39,11 +39,11 @@ export const createHandlers = (
   handlers: ReadonlySignal<EventHandlers>,
   userHandlers: () => UserEventHandlers
 ) => {
-  let internalHandlers = fromStore(handlers)
-  let externalHandlers = $derived(userHandlers())
+  const internalHandlers = fromStore(handlers)
+  const externalHandlers = $derived(userHandlers())
 
-  let allHandlers = $derived.by(() => {
-    const obj: Record<string, any> = {}
+  const allHandlers = $derived.by(() => {
+    const obj: Record<string, unknown> = {}
 
     for (const key of eventHandlerKeys) {
       const userKey = keymap[key]
@@ -53,7 +53,7 @@ export const createHandlers = (
       if (userHandler === undefined) {
         obj[userKey] = handler
       } else {
-        obj[userKey] = (event: IntersectionEvent<any>) => {
+        obj[userKey] = (event: IntersectionEvent<unknown>) => {
           handler?.(event as unknown as ThreeEvent)
           if ('stopped' in event && event.stopped) {
             return

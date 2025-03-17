@@ -21,7 +21,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest --browser.name=chromium --browser.headless",
     "prettier": "prettier --check",
-    "lint": "prettier --check . && eslint .",
+    "lint": "svelte-kit sync && prettier --check . && eslint .",
     "format": "prettier --write .",
     "release": "changeset publish"
   },

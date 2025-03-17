@@ -7,7 +7,9 @@ interface Context {
   current: AllOptionalProperties
 }
 
-export const provideDefaultProperties = (defaultProperties: () => AllOptionalProperties) => {
+export const provideDefaultProperties = (
+  defaultProperties: () => AllOptionalProperties
+) => {
   setContext<Context>(contextKey, {
     get current() {
       return defaultProperties()
