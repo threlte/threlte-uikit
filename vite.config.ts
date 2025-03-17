@@ -7,9 +7,9 @@ export default defineConfig({
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],
     browser: {
-      provider: 'playwright', // or 'webdriverio'
+      provider: 'playwright',
       enabled: true,
-      name: 'chromium', // browser name is required
+      instances: [{ browser: 'chromium' }],
     },
   },
 })

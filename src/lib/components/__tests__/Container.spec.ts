@@ -1,3 +1,7 @@
-import { describe } from 'vitest'
+import { describe, it, expect } from 'vitest'
 
-describe('<Container>', () => {})
+describe('<Container>', () => {
+  it('works', () => {
+    expect(true).toBe(true)
+  })
+})
