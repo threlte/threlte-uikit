@@ -1,69 +1,70 @@
 <script lang="ts">
   import { Group } from 'three'
-  import { T, currentWritable } from '@threlte/core'
+  import { T } from '@threlte/core'
   import { signal } from '@preact/signals-core'
-  import { createText, type FontFamilies, type TextProperties } from '@pmndrs/uikit/internals'
+  import {
+    createTextState,
+    setupText,
+    type FontFamilies,
+    type TextProperties,
+  } from '@pmndrs/uikit/internals'
   import { useFontFamilies } from '$lib/useFontFamilies'
   import { useParent } from '$lib/useParent'
-  import { usePropertySignals } from '$lib/usePropSignals'
-  import { useInternals } from '$lib/useInternals'
+  import { usePropertySignals } from '$lib/usePropSignals.svelte'
+  import { useInternals, type ComponentInternals } from '$lib/useInternals'
   import AddHandlers from '../AddHandlers.svelte'
-  import type { Props } from './Text.svelte'
+  import type { EventHandlers } from '$lib/Events'
 
-  type $$Props = Props
+  type Props = TextProperties & {
+    ref?: ComponentInternals
+    name?: string
+    text: string
+  } & EventHandlers
 
-  export let name: Props['name'] = undefined
-  export let text: Props['text']
+  let { ref = $bindable(), name, text, ...rest }: Props = $props()
 
   const parent = useParent()
-  const outerRef = currentWritable(new Group())
+  const outerRef = new Group()
 
-  const { style, properties, defaults } = usePropertySignals<TextProperties>()
-  $: props = { ...$$restProps }
-  $: properties.value = props
+  const { style, properties, defaults } = usePropertySignals<TextProperties>(() => rest)
 
   const textSignal = signal(text)
-  $: textSignal.value = text
+  $effect.pre(() => {
+    textSignal.value = text
+  })
 
   const fontContext = useFontFamilies()
   const fontFamilies = signal<FontFamilies | undefined>(fontContext)
-  $: fontFamilies.value = fontContext
 
-  const internals = createText(
+  $effect.pre(() => {
+    fontFamilies.value = fontContext
+  })
+
+  const internals = createTextState(
     parent,
     textSignal,
     fontFamilies,
     style,
     properties,
-    defaults,
-    outerRef
+    defaults
   )
-  $: internals.interactionPanel.name = name ?? ''
+  $effect.pre(() => {
+    internals.interactionPanel.name = name ?? ''
+  })
 
-  export let ref: Props['ref'] = undefined
-  ref = useInternals(internals, style, parent.root.pixelSize)
+  $effect.pre(() => {
+    const abortController = new AbortController()
+    setupText(internals, parent, style, properties, outerRef, abortController.signal)
+    return () => abortController.abort()
+  })
 
-  const internalsHandlers = internals.handlers
-  $: handlers = $internalsHandlers
+  ref = useInternals(parent.root.pixelSize, style, internals, internals.interactionPanel)
 </script>
 
 <AddHandlers
-  ref={$outerRef}
-  userHandlers={props}
-  handlers={{
-    onclick: handlers.onClick,
-    oncontextmenu: handlers.onContextMenu,
-    ondblclick: handlers.onDoubleClick,
-    onpointercancel: handlers.onPointerCancel,
-    onpointerdown: handlers.onPointerDown,
-    onpointerenter: handlers.onPointerEnter,
-    onpointerleave: handlers.onPointerLeave,
-    onpointermissed: handlers.onPointerMissed,
-    onpointermove: handlers.onPointerMove,
-    onpointerout: handlers.onPointerOut,
-    onpointerover: handlers.onPointerOver,
-    onpointerup: handlers.onPointerUp,
-  }}
+  ref={outerRef}
+  handlers={internals.handlers}
+  userHandlers={rest}
 >
   <T is={internals.interactionPanel} />
 </AddHandlers>

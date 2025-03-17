@@ -1,92 +1,85 @@
 <script
-  context="module"
+  module
   lang="ts"
 >
   import type { Object3D } from 'three'
   import { T } from '@threlte/core'
-  import type { EventHandlers } from '$lib/Events'
+  import type { EventHandlers } from '@pmndrs/uikit/internals'
+  import type { Snippet } from 'svelte'
+  import type { ReadonlySignal } from '@preact/signals-core'
+  import type { EventHandlers as UserEventHandlers } from '$lib/Events'
 
   const eventHandlerKeys: Array<keyof EventHandlers> = [
-    'onclick',
-    'oncontextmenu',
-    'ondblclick',
-    'onpointercancel',
-    'onpointerdown',
-    'onpointerenter',
-    'onpointerleave',
-    'onpointermissed',
-    'onpointermove',
-    'onpointerout',
-    'onpointerover',
-    'onpointerup',
-    'onwheel',
+    'onClick',
+    'onContextMenu',
+    'onDoubleClick',
+    'onPointerCancel',
+    'onPointerDown',
+    'onPointerEnter',
+    'onPointerLeave',
+    'onPointerMove',
+    'onPointerOut',
+    'onPointerOver',
+    'onPointerUp',
+    'onWheel',
   ] as const
-</script>
 
-<script lang="ts">
-  export let ref: Object3D
-  export let userHandlers: EventHandlers
-  export let handlers: EventHandlers
-
-  let count = 0
-
-  $: {
-    count = 0
-    for (const key of eventHandlerKeys) {
-      const userHandler = userHandlers[key]
-      const existingHandler = handlers[key]
-
-      if (userHandler !== undefined) {
-        if (existingHandler === undefined) {
-          handlers[key] = userHandler
-        } else {
-          handlers[key] = (event) => {
-            existingHandler?.(event)
-            if ('stopped' in event && event.stopped) {
-              return
-            }
-
-            userHandler(event)
-          }
-        }
-        count += 1
-      } else if (existingHandler !== undefined) {
-        count += 1
-      }
-    }
+  const keymap: Record<keyof EventHandlers, keyof UserEventHandlers> = {
+    onClick: 'onclick',
+    onContextMenu: 'oncontextmenu',
+    onDoubleClick: 'ondblclick',
+    onPointerCancel: 'onpointercancel',
+    onPointerDown: 'onpointerdown',
+    onPointerEnter: 'onpointerenter',
+    onPointerLeave: 'onpointerleave',
+    onPointerMove: 'onpointermove',
+    onPointerOut: 'onpointerout',
+    onPointerOver: 'onpointerover',
+    onPointerUp: 'onpointerup',
+    onWheel: 'onwheel',
   }
 </script>
 
-<!-- 
-  Remove this count checker once the interactivity plugin 
-  checks for "undefined" values when deciding what to add
-  as a raycast object.
--->
-{#if count > 0}
-  <T
-    is={ref}
-    matrixAutoUpdate={false}
-    on:click={handlers.onclick}
-    on:contextmenu={handlers.oncontextmenu}
-    on:dblclick={handlers.ondblclick}
-    on:pointerdown={handlers.onpointerdown}
-    on:pointerenter={handlers.onpointerenter}
-    on:pointerleave={handlers.onpointerleave}
-    on:pointermissed={handlers.onpointermissed}
-    on:pointermove={handlers.onpointermove}
-    on:pointerout={handlers.onpointerout}
-    on:pointerover={handlers.onpointerover}
-    on:pointerup={handlers.onpointerup}
-    on:wheel={handlers.onwheel}
-    {...handlers}
-  >
-    <slot />
-  </T>
-{:else}
-  <T
-    is={ref}
-    matrixAutoUpdate={false}
-  >
-    <slot />
-  </T>
-{/if}
+<script lang="ts">
+  type Props = {
+    ref: Object3D<any>
+    userHandlers: UserEventHandlers
+    handlers: ReadonlySignal<EventHandlers>
+    children?: Snippet
+  }
+
+  let { ref, userHandlers, handlers, children }: Props = $props()
+
+  let internalHandlers = $derived($handlers)
+  let allHandlers = $derived.by(() => {
+    const obj: Record<keyof UserEventHandlers, any> = {}
+
+    for (const key of eventHandlerKeys) {
+      const userKey = keymap[key]
+      const userHandler = userHandlers[userKey]
+      const handler = internalHandlers[key]
+
+      if (userHandler === undefined) {
+        obj[userKey] = handler
+      } else {
+        obj[userKey] = (event) => {
+          handler?.(event)
+          if ('stopped' in event && event.stopped) {
+            return
+          }
+          userHandler(event)
+        }
+      }
+    }
+
+    return obj
+  })
+</script>
+
+<T
+  is={ref}
+  matrixAutoUpdate={false}
+  {...allHandlers}
+>
+  {@render children?.()}
+</T>

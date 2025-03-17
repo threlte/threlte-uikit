@@ -1,6 +1,6 @@
 # threlte-uikit
 
-`threlte-uikit` wraps [`@pmndrs/uikit`](https://github.com/pmndrs/uikit) (the vanilla flavor) in a declarative syntax for use with [Threlte](https://threlte.xyz).
+`threlte-uikit` wraps [`@pmndrs/uikit`](https://github.com/pmndrs/uikit) in a declarative syntax for use with [Threlte](https://threlte.xyz).
 
 ```
 npm i threlte-uikit
@@ -52,9 +52,11 @@ The component internals may be accessed via the `ref` property.
 Allows overriding the default properties for all UIKit components and children components of the component in which it is called.
 
 ```ts
-provideDefaultProperties({
+let defaultProps = $state({
   margin: 10,
 })
+
+provideDefaultProperties(() => defaultProps)
 ```
 
 - `provideFontFamilies()`

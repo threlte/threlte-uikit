@@ -1,28 +1,22 @@
-import { onMount } from 'svelte'
-import type { Vector2Tuple, Mesh } from 'three'
-import type { CurrentWritable } from '@threlte/core'
-import { type ReadonlySignal, type Signal, untracked } from '@preact/signals-core'
+import { type ReadonlySignal, Signal, untracked } from '@preact/signals-core'
 import {
-  initialize,
-  unsubscribeSubscriptions,
-  type Subscriptions,
   type Inset,
-  createContainer,
-  createImage,
-  createRoot,
-  createSvg,
-  createText,
-  // createIcon,
-  // createCustomContainer,
   type ContainerProperties,
-  type MergedProperties,
-  type ImageProperties,
-  type RootProperties,
-  type SvgProperties,
-  type TextProperties,
+  MergedProperties,
+  createContainerState,
+  createCustomContainerState,
+  createIconState,
+  createTextState,
+  createSvgState,
+  createRootState,
+  createImageState,
+  createInputState,
+  createContentState,
 } from '@pmndrs/uikit/internals'
+import { type Vector2Tuple, Mesh, Matrix4 } from 'three'
 
 export type ComponentInternals<T = ContainerProperties> = {
+  globalMatrix: ReadonlySignal<Matrix4 | undefined>
   /**
    * the size of one pixel
    */
@@ -60,9 +54,13 @@ export type ComponentInternals<T = ContainerProperties> = {
    */
   isClipped?: ReadonlySignal<boolean>
   /**
+   * exploses whether the element is not fully clipped, has a size greater then 0, is not set to invisible, or display unequal to "none" by itself and all ancestors
+   */
+  isVisible: ReadonlySignal<boolean>
+  /**
    * set the styles of the element (the provided styles have a higher precedence then the element's properties)
    */
-  setStyle(style: T | undefined): void
+  setStyle(style: T | undefined, replace?: boolean): void
   /**
    * get the object last written to `setStyle`
    */
@@ -74,60 +72,56 @@ export type ComponentInternals<T = ContainerProperties> = {
   getComputedProperty<K extends keyof T>(key: K): T[K] | undefined
 }
 
-export type ContainerRef = ComponentInternals<ContainerProperties>
-export type ImageRef = ComponentInternals<ImageProperties>
-export type RootRef = ComponentInternals<RootProperties>
-export type SvgRef = ComponentInternals<SvgProperties>
-export type TextRef = ComponentInternals<TextProperties>
-export type ContentRef = ContainerRef
-
-type Internals = ReturnType<
-  | typeof createContainer
-  | typeof createImage
-  | typeof createRoot
-  | typeof createSvg
-  | typeof createText
-  // | typeof createIcon
-  // | typeof createCustomContainer
-> & {
-  isClipped?: Signal<boolean>
-  scrollPosition?: Signal<Vector2Tuple>
-  mergedProperties: Signal<MergedProperties>
-  interactionPanel: Mesh | CurrentWritable<Mesh>
-}
-
 export const useInternals = <T, Additional = object>(
-  internals: Internals,
-  styleSignal: Signal<T | undefined>,
   pixelSize: Signal<number>,
-  additional?: Additional
+  styleSignal: Signal<T | undefined>,
+  internals: ReturnType<
+    | typeof createContainerState
+    | typeof createContentState
+    | typeof createImageState
+    | typeof createRootState
+    | typeof createSvgState
+    | typeof createTextState
+    | typeof createIconState
+    | typeof createInputState
+    | typeof createCustomContainerState
+  > & {
+    isClipped?: Signal<boolean>
+    scrollPosition?: Signal<Vector2Tuple>
+    mergedProperties: Signal<MergedProperties>
+  },
+  interactionPanel: Mesh | null,
+  additional?: O
 ): ComponentInternals<T> => {
-  const subscriptions: Subscriptions = []
-
-  initialize(internals.initializers, subscriptions)
-
-  onMount(() => {
-    return () => unsubscribeSubscriptions(subscriptions)
-  })
-
+  const {
+    scrollPosition,
+    paddingInset,
+    borderInset,
+    globalMatrix,
+    relativeCenter,
+    size,
+    maxScrollPosition,
+  } = internals
   return {
-    setStyle: (style: T | undefined) => (styleSignal.value = style),
+    isVisible: internals.isVisible,
+    setStyle: (style: T | undefined, replace?: boolean) =>
+      (styleSignal.value = replace ? style : ({ ...styleSignal.value, ...style } as T)),
     getStyle: () => styleSignal.peek(),
     getComputedProperty: <K extends keyof T>(key: K) =>
       untracked(() =>
         internals.mergedProperties.value.read<T[K] | undefined>(key as string, undefined)
       ),
     pixelSize,
-    borderInset: internals.borderInset,
-    paddingInset: internals.paddingInset,
-    center: internals.relativeCenter,
-    maxScrollPosition: internals.maxScrollPosition,
-    size: internals.size,
-    get interactionPanel() {
-      return internals.interactionPanel
-    },
-    scrollPosition: internals.scrollPosition,
+    borderInset,
+    paddingInset,
+    center: relativeCenter,
+    globalMatrix,
+    maxScrollPosition,
+    size,
+    interactionPanel:
+      interactionPanel instanceof Mesh ? interactionPanel : interactionPanel.current!,
+    scrollPosition,
     isClipped: internals.isClipped,
-    ...additional,
+    ...(additional as O),
   }
 }

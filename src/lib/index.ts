@@ -41,4 +41,4 @@ export { default as Text } from './components/Text/Text.svelte'
 export { default as Video } from './components/Video/Video.svelte'
 
 // Refs
-export type { ContainerRef, ContentRef, ImageRef, RootRef, SvgRef, TextRef } from './useInternals'
+export type { ComponentInternals } from './useInternals'

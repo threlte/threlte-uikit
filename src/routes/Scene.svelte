@@ -1,29 +1,40 @@
 <script lang="ts">
-  import { Root, Container, Text, Image, Content, SVG, Video, type RootRef } from '$lib'
+  import {
+    Root,
+    Container,
+    Text,
+    Image,
+    Content,
+    SVG,
+    Video,
+    type ComponentInternals,
+  } from '$lib'
   import { T, useTask } from '@threlte/core'
   import { OrbitControls, interactivity } from '@threlte/extras'
   import Fullscreen from './Fullscreen.svelte'
-  import { Inspector } from 'three-inspect'
+  import type { Mesh } from 'three'
 
   interactivity()
 
   let elapsed = 0
 
-  let root: RootRef
+  let root: ComponentInternals
+  let cube: Mesh
 
   useTask((delta) => {
     elapsed += delta
 
     const d = Math.sin(elapsed * 5) * 20
     root.setStyle({ width: 330 + d })
+
+    cube.rotation.x += delta
+    cube.rotation.y += delta
   })
 
   let clicked = false
 </script>
 
-<Inspector />
-
-<svelte:window on:click={() => (clicked = true)} />
+<svelte:window onclick={() => (clicked = true)} />
 
 <Fullscreen />
 
@@ -32,7 +43,7 @@
   position={[5, 5, 10]}
   on:create={({ ref }) => ref.lookAt(0, 0, 0)}
 >
-  <OrbitControls />
+  <OrbitControls autoRotate />
 </T.PerspectiveCamera>
 
 <T.Group>
@@ -79,6 +90,7 @@
       />
     </Container>
     <Image
+      name="Image"
       width="100%"
       src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
     />
@@ -89,15 +101,18 @@
   <Root>
     <Content
       width={100}
+      height={100}
       backgroundColor="#eee"
       depthAlign="back"
     >
       <T.Mesh
+        bind:ref={cube}
         name="thingy"
-        frustumCulled={false}
-        visible
+        rotation.x={Math.PI / 4}
+        rotation.y={Math.PI / 4}
+        position.z={-1}
       >
-        <T.DodecahedronGeometry />
+        <T.BoxGeometry />
         <T.MeshToonMaterial color="turquoise" />
       </T.Mesh>
     </Content>
@@ -111,6 +126,7 @@
       width={400}
     >
       <Video
+        name="video"
         autoplay
         borderRadius={10}
         src="/BigBuckBunny_320x180.mp4"

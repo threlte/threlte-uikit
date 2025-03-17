@@ -2,26 +2,33 @@
   import {
     DEFAULT_PIXEL_SIZE,
     type RootProperties,
-    createRoot,
+    createRootState,
     readReactive,
     reversePainterSortStable,
+    setupRoot,
   } from '@pmndrs/uikit/internals'
   import { Group } from 'three'
-  import { T, useThrelte, useTask, currentWritable } from '@threlte/core'
-  import { type Signal, computed, signal } from '@preact/signals-core'
-
+  import { T, useThrelte, useTask } from '@threlte/core'
+  import { computed, signal } from '@preact/signals-core'
   import { createParent } from '$lib/useParent'
-  import { usePropertySignals } from '$lib/usePropSignals'
+  import { usePropertySignals } from '$lib/usePropSignals.svelte'
   import { useInternals } from '$lib/useInternals'
   import AddHandlers from '../AddHandlers.svelte'
-  import type { Props } from './Root.svelte'
+  import type { EventHandlers } from '$lib/Events'
+  import type { ComponentInternals } from '$lib/useInternals'
+  import type { Snippet } from 'svelte'
 
-  type $$Props = Props
+  type Props = RootProperties & {
+    pixelSize?: number
+    ref?: ComponentInternals
+    name?: string
+    children?: Snippet
+  } & EventHandlers
 
-  export let pixelSize: Props['pixelSize'] = undefined
-  export let name: Props['name'] = undefined
+  let { ref = $bindable(), pixelSize, name, children, ...rest }: Props = $props()
 
-  const { camera, renderer, shouldRender, scheduler, renderStage, invalidate } = useThrelte()
+  const { camera, renderer, shouldRender, scheduler, renderStage, invalidate } =
+    useThrelte()
 
   // @TODO(mp) Remove optional once @threlte/test supports webgl2 context mocking.
   renderer.setTransparentSort?.(reversePainterSortStable)
@@ -31,23 +38,23 @@
 
   let whileOnFrameRef = false
 
-  let outerRef = currentWritable(new Group())
-  let innerRef = currentWritable(new Group())
+  const outerRef = new Group()
+  const innerRef = new Group()
 
-  const { style, properties, defaults } = usePropertySignals<RootProperties>()
-  $: props = { ...$$restProps }
-  $: properties.value = props
+  const { style, properties, defaults } = usePropertySignals<RootProperties>(() => rest)
 
-  const pixelSizeSignal = signal<Signal<number | undefined> | number | undefined>(undefined)
-  $: pixelSizeSignal.value = pixelSize
+  const pixelSizeSignal = signal(pixelSize ?? DEFAULT_PIXEL_SIZE)
 
-  const internals = createRoot(
-    computed(() => readReactive(pixelSizeSignal.value) ?? DEFAULT_PIXEL_SIZE),
+  $effect.pre(() => {
+    pixelSizeSignal.value = pixelSize ?? DEFAULT_PIXEL_SIZE
+  })
+
+  const internals = createRootState(
+    { current: outerRef },
+    computed(() => readReactive(pixelSizeSignal.value)),
     style,
     properties,
     defaults,
-    outerRef,
-    innerRef,
     () => camera.current,
     renderer,
     onFrameSet,
@@ -63,10 +70,19 @@
     // requestFrame = invalidate, because invalidate always causes another frame
     invalidate
   )
-  $: internals.interactionPanel.name = name ?? ''
+  createParent(internals)
 
-  export let ref: Props['ref'] = undefined
-  ref = useInternals(internals, style, internals.root.pixelSize)
+  $effect.pre(() => {
+    internals.interactionPanel.name = name ?? ''
+  })
+
+  $effect.pre(() => {
+    const abortController = new AbortController()
+    setupRoot(internals, style, properties, outerRef, innerRef, abortController.signal)
+    return () => abortController.abort()
+  })
+
+  ref = useInternals(pixelSizeSignal, style, internals, internals.interactionPanel)
 
   useTask(
     (delta) => {
@@ -83,36 +99,18 @@
       stage: scheduler.createStage(Symbol('uikit-stage'), { before: renderStage }),
     }
   )
-
-  createParent(internals)
-
-  const internalsHandlers = internals.handlers
-  $: handlers = $internalsHandlers
 </script>
 
 <AddHandlers
-  ref={$outerRef}
-  userHandlers={props}
-  handlers={{
-    onclick: handlers.onClick,
-    oncontextmenu: handlers.onContextMenu,
-    ondblclick: handlers.onDoubleClick,
-    onpointercancel: handlers.onPointerCancel,
-    onpointerdown: handlers.onPointerDown,
-    onpointerenter: handlers.onPointerEnter,
-    onpointerleave: handlers.onPointerLeave,
-    onpointermissed: handlers.onPointerMissed,
-    onpointermove: handlers.onPointerMove,
-    onpointerout: handlers.onPointerOut,
-    onpointerover: handlers.onPointerOver,
-    onpointerup: handlers.onPointerUp,
-  }}
+  ref={outerRef}
+  handlers={internals.handlers}
+  userHandlers={rest}
 >
   <T is={internals.interactionPanel} />
   <T
     matrixAutoUpdate={false}
-    is={$innerRef}
+    is={innerRef}
   >
-    <slot />
+    {@render children?.()}
   </T>
 </AddHandlers>

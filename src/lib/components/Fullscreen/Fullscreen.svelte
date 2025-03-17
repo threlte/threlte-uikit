@@ -1,75 +1,85 @@
 <script lang="ts">
-  import { Group, type PerspectiveCamera } from 'three'
-  import { useThrelte, T, watch } from '@threlte/core'
+  import { Group, type PerspectiveCamera, type OrthographicCamera } from 'three'
+  import { useThrelte, T } from '@threlte/core'
   import { batch, signal } from '@preact/signals-core'
   import { updateSizeFullscreen } from '@pmndrs/uikit/internals'
   import Root from '../Root/Root.svelte'
-  import { writable } from 'svelte/store'
-  import type { Props } from './Fullscreen.svelte'
+  import { type ComponentInternals } from '../../useInternals'
+  import type { FullscreenProperties } from '@pmndrs/uikit/internals'
+  import type { EventHandlers } from '$lib/Events'
+  import type { Snippet } from 'svelte'
 
-  type $$Props = Props
+  type Props = FullscreenProperties & {
+    ref?: ComponentInternals
+    name?: string
+    distanceToCamera?: number
+    pixelSize?: number
+    camera?: PerspectiveCamera | OrthographicCamera
+    children?: Snippet
+  } & EventHandlers
 
-  export let pixelSize: Props['pixelSize'] = undefined
-  export let distanceToCamera: Props['distanceToCamera'] = undefined
-  export let ref: Props['ref'] = undefined
+  let {
+    ref = $bindable(),
+    pixelSize,
+    distanceToCamera,
+    camera: userCamera,
+    children,
+    ...rest
+  }: Props = $props()
 
-  let userCamera: Props['camera'] = undefined
-  export { userCamera as camera }
-
-  const { scene, size, camera: defaultCamera } = useThrelte()
+  const { size, camera: defaultCamera } = useThrelte()
 
   const xSizeSignal = signal(1)
   const ySizeSignal = signal(1)
   const pixelSizeSignal = signal(1)
 
-  $: if (pixelSize !== undefined) {
-    pixelSizeSignal.value = pixelSize
-  }
+  $effect(() => {
+    if (pixelSize !== undefined) {
+      pixelSizeSignal.value = pixelSize
+    }
+  })
 
-  const camera = writable(userCamera ?? $defaultCamera)
-  $: camera.set(userCamera ?? $defaultCamera)
+  const camera = $derived(userCamera ?? $defaultCamera)
 
-  $: distance = distanceToCamera ? distanceToCamera : ($camera as PerspectiveCamera).near + 0.1
+  const distance = $derived(
+    distanceToCamera ? distanceToCamera : (camera as PerspectiveCamera).near + 0.1
+  )
 
-  $: {
-    $camera, $size, distance
+  $effect(() => {
     batch(() =>
       updateSizeFullscreen(
         xSizeSignal,
         ySizeSignal,
         pixelSizeSignal,
         distance,
-        $camera,
+        camera,
         $size.height
       )
     )
-  }
+  })
 
   const group = new Group()
 
-  watch(camera, ($camera) => {
-    $camera.add(group)
-    return () => {
-      $camera.remove(group)
-    }
+  $effect(() => {
+    camera.add(group)
+    return () => camera.remove(group)
   })
+
+  let p = $derived($pixelSizeSignal)
 </script>
 
 <T
   is={group}
   position.z={-distance}
-  attach={({ ref }) => {
-    scene.add(group)
-    return () => scene.remove(group)
-  }}
+  attach={false}
 >
   <Root
     bind:ref
-    {...$$restProps}
+    {...rest}
     sizeX={xSizeSignal}
     sizeY={ySizeSignal}
-    pixelSize={pixelSizeSignal}
+    pixelSize={p}
   >
-    <slot />
+    {@render children?.()}
   </Root>
 </T>

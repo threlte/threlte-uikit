@@ -3,10 +3,18 @@ import type { AllOptionalProperties } from '@pmndrs/uikit/internals'
 
 const contextKey = Symbol('default-props-context')
 
-export const provideDefaultProperties = (defaults: AllOptionalProperties) => {
-  setContext(contextKey, defaults)
+interface Context {
+  current: AllOptionalProperties
 }
 
-export const useDefaultProperties = () => {
-  return getContext<AllOptionalProperties>(contextKey) ?? {}
+export const provideDefaultProperties = (defaultProperties: () => AllOptionalProperties) => {
+  setContext<Context>(contextKey, {
+    get current() {
+      return defaultProperties()
+    },
+  })
+}
+
+export const useDefaultProperties = (): Context => {
+  return getContext<Context | undefined>(contextKey) ?? { current: {} }
 }
