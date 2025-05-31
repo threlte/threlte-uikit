@@ -35,7 +35,7 @@
   const ySizeSignal = signal(1)
   const pixelSizeSignal = signal(1)
 
-  $effect(() => {
+  $effect.pre(() => {
     if (pixelSize !== undefined) {
       pixelSizeSignal.value = pixelSize
     }
@@ -47,7 +47,7 @@
     distanceToCamera ? distanceToCamera : (camera as PerspectiveCamera).near + 0.1
   )
 
-  $effect(() => {
+  $effect.pre(() => {
     batch(() =>
       updateSizeFullscreen(
         xSizeSignal,
@@ -62,7 +62,7 @@
 
   const group = new Object3D()
 
-  $effect(() => {
+  $effect.pre(() => {
     camera.add(group)
     return () => camera.remove(group)
   })
