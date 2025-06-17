@@ -22,12 +22,11 @@
   let { ref = $bindable(), name, children, ...rest }: Props = $props()
 
   const parent = useParent()
+  const outerRef = new Object3D()
+  const innerRef = new Object3D()
   const { style, properties, defaults } = usePropertySignals<ContentProperties>(
     () => rest
   )
-
-  const outerRef = new Object3D()
-  const innerRef = new Object3D()
 
   const internals = createContentState(parent, style, properties, defaults, {
     current: innerRef,
