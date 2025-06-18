@@ -18,6 +18,9 @@ importers:
       '@changesets/cli':
         specifier: ^2.29.4
         version: 2.29.4
+      '@eslint/js':
+        specifier: ^9.29.0
+        version: 9.29.0
       '@sveltejs/adapter-auto':
         specifier: ^6.0.1
         version: 6.0.1(@sveltejs/kit@2.21.5(@sveltejs/vite-plugin-svelte@5.1.0(svelte@5.34.5)(vite@6.3.5(jiti@1.21.7)(sass@1.89.2)(yaml@2.8.0)))(svelte@5.34.5)(vite@6.3.5(jiti@1.21.7)(sass@1.89.2)(yaml@2.8.0)))
