@@ -45,6 +45,10 @@
   )
 
   $effect.pre(() => {
+    internals.interactionPanel.name = name ?? ''
+  })
+
+  $effect.pre(() => {
     const abortController = new AbortController()
     setupImage(
       internals,
@@ -56,10 +60,6 @@
       abortController.signal
     )
     return () => abortController.abort()
-  })
-
-  $effect.pre(() => {
-    internals.interactionPanel.name = name ?? ''
   })
 
   const allHandlers = createHandlers(internals.handlers, () => rest)

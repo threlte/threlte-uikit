@@ -32,22 +32,20 @@
 
   // @TODO(mp) Remove optional once @threlte/test supports webgl2 context mocking.
   renderer.setTransparentSort?.(reversePainterSortStable)
-  renderer.localClippingEnabled = true
-
-  const onFrameSet = new Set<(delta: number) => void>()
-
-  let whileOnFrameRef = false
 
   const outerRef = new Object3D()
   const innerRef = new Object3D()
 
-  const { style, properties, defaults } = usePropertySignals<RootProperties>(() => rest)
-
   const pixelSizeSignal = signal(pixelSize ?? DEFAULT_PIXEL_SIZE)
-
   $effect.pre(() => {
     pixelSizeSignal.value = pixelSize ?? DEFAULT_PIXEL_SIZE
   })
+
+  const { style, properties, defaults } = usePropertySignals<RootProperties>(() => rest)
+
+  const onFrameSet = new Set<(delta: number) => void>()
+
+  let whileOnFrameRef = false
 
   const internals = createRootState(
     { current: outerRef },

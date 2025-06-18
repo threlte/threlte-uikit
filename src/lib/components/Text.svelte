@@ -25,7 +25,6 @@
 
   const parent = useParent()
   const outerRef = new Object3D()
-
   const { style, properties, defaults } = usePropertySignals<TextProperties>(() => rest)
 
   const textSignal = signal(text)
