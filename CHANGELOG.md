@@ -1,5 +1,11 @@
 # temp
 
+## 1.2.0
+
+### Minor Changes
+
+- 785f62d: Bump uikit to 0.8.20
+
 ## 1.1.0
 
 ### Minor Changes
