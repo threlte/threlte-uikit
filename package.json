@@ -58,6 +58,7 @@
     "@types/eslint": "^9.6.1",
     "@types/three": "^0.177.0",
     "@vitest/browser": "^3.2.4",
+    "eslint": "^9.29.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-svelte": "^3.9.2",
     "globals": "^16.2.0",
