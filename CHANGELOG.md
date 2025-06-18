@@ -1,5 +1,11 @@
 # temp
 
+## 1.1.0
+
+### Minor Changes
+
+- 4162153: Upgrade UIKit to 0.8.19
+
 ## 1.0.0
 
 ### Major Changes

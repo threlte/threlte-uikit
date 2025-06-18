@@ -37,11 +37,11 @@
   )
   createParent(internals)
 
-  $effect(() => {
+  $effect.pre(() => {
     internals.interactionPanel.name = name ?? ''
   })
 
-  $effect(() => {
+  $effect.pre(() => {
     const abortController = new AbortController()
     setupContainer(
       internals,

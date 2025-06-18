@@ -1,13 +1,11 @@
 import js from '@eslint/js'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import globals from 'globals'
 import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
-import globals from 'globals'
 import ts from 'typescript-eslint'
 import svelteConfig from './svelte.config.js'
 
-export default defineConfig([
-  globalIgnores(['dist/', '.svelte-kit/']),
+export default ts.config(
   prettier,
   js.configs.recommended,
   ...ts.configs.recommended,
@@ -17,8 +15,13 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...globals.browser,
+        ...globals.node,
       },
     },
+  },
+  {
+    name: 'ignores',
+    ignores: ['.svelte-kit'],
   },
   {
     files: ['**/*.svelte', '**/*.svelte.js', '**/*.svelte.ts', '../*.svelte.config.ts'],
@@ -41,5 +44,5 @@ export default defineConfig([
         svelteConfig,
       },
     },
-  },
-])
+  }
+)

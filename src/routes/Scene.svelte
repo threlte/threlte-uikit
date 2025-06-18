@@ -112,7 +112,7 @@
         rotation.y={Math.PI / 4}
         position.z={-1}
       >
-        <T.BoxGeometry />
+        <T.BoxGeometry args={[0.1, 0.1, 0.1]} />
         <T.MeshToonMaterial color="turquoise" />
       </T.Mesh>
     </Content>
