@@ -1,5 +1,11 @@
 # temp
 
+## 1.2.1
+
+### Patch Changes
+
+- 61ecf13: Bump uikit to 0.8.21
+
 ## 1.2.0
 
 ### Minor Changes
