@@ -7,7 +7,7 @@
   } from '@pmndrs/uikit'
   import { T, useThrelte } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events'
+  import type { EventHandlers } from '$lib/Events.js'
 
   type Props = FullscreenProperties & {
     ref?: VanillaFullscreen

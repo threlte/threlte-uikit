@@ -29,6 +29,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
+    },
+    "./kit": {
+      "types": "./dist/components/kit/index.d.ts",
+      "svelte": "./dist/components/kit/index.js"
+    },
+    "./horizon": {
+      "types": "./dist/components/horizon/index.d.ts",
+      "svelte": "./dist/components/horizon/index.js"
     }
   },
   "files": [
@@ -38,6 +46,8 @@
   ],
   "dependencies": {
     "@pmndrs/uikit": "^1.0.64",
+    "@pmndrs/uikit-default": "^1.0.64",
+    "@pmndrs/uikit-horizon": "^1.0.64",
     "@preact/signals-core": "^1.14.0"
   },
   "peerDependencies": {
@@ -54,7 +64,7 @@
     "@sveltejs/package": "^2.5.7",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@threlte/core": "^8.5.4",
-    "@threlte/extras": "^9.13.1",
+    "@threlte/extras": "^9.13.2",
     "@threlte/test": "^1.0.0",
     "@types/eslint": "^9.6.1",
     "@types/three": "^0.183.1",

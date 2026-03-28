@@ -11,6 +11,12 @@ importers:
       '@pmndrs/uikit':
         specifier: ^1.0.64
         version: 1.0.64(three@0.183.2)
+      '@pmndrs/uikit-default':
+        specifier: ^1.0.64
+        version: 1.0.64(three@0.183.2)
+      '@pmndrs/uikit-horizon':
+        specifier: ^1.0.64
+        version: 1.0.64(three@0.183.2)
       '@preact/signals-core':
         specifier: ^1.14.0
         version: 1.14.0
@@ -37,11 +43,11 @@ importers:
         specifier: ^8.5.4
         version: 8.5.4(svelte@5.55.0)(three@0.183.2)
       '@threlte/extras':
-        specifier: ^9.13.1
-        version: 9.13.1(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2)
+        specifier: ^9.13.2
+        version: 9.13.2(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2)
       '@threlte/test':
         specifier: ^1.0.0
-        version: 1.0.0(@threlte/core@8.5.4(svelte@5.55.0)(three@0.183.2))(@threlte/extras@9.13.1(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2))(svelte@5.55.0)
+        version: 1.0.0(@threlte/core@8.5.4(svelte@5.55.0)(three@0.183.2))(@threlte/extras@9.13.2(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2))(svelte@5.55.0)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -499,6 +505,15 @@ packages:
   '@pmndrs/msdfonts@1.0.64':
     resolution: {integrity: sha512-fyDNvCIGUTUYxDOzQnLOAGEuDQbyjx1JUlEYrjHB8KLDWzVl0j2SoFiLN4AwahEh4pXiA7XdJBNneQKnfMa/Bw==}
 
+  '@pmndrs/uikit-default@1.0.64':
+    resolution: {integrity: sha512-247ak5lysNU9NGGuxOvdOas65aa78eGQTRWktmF9ymFLyqHdti0mlby5oqtFV/gIVjF0ZHNvdwinnUhm9pX8RA==}
+
+  '@pmndrs/uikit-horizon@1.0.64':
+    resolution: {integrity: sha512-0Hav6faSsMFC4UUEQiTq2BjDIQXAN33v3JlrngOc5c4TFe78mEYKO7zJ6U8AE9k1LxvgAaC9zlPTKPR5Wm041Q==}
+
+  '@pmndrs/uikit-lucide@1.0.64':
+    resolution: {integrity: sha512-WU9CqboaBJHLvAk3Qt6V+7oMSk2lafY/ZwdcjuwSt3U+ZExHMnM24APeBdwi6w0e0sER2I/qiSVDs26JPOg7ew==}
+
   '@pmndrs/uikit-pub-sub@1.0.64':
     resolution: {integrity: sha512-+hlc5aWC3wQlA/zihwh+OGSm3aY9O+L/TEuNLwXw6R8syHMv7obqeY6s/hcjzD92k6DRQZLhVzVy+yqqVKAbRA==}
 
@@ -684,8 +699,8 @@ packages:
       svelte: '>=4'
       three: '>=0.152'
 
-  '@threlte/extras@9.13.1':
-    resolution: {integrity: sha512-UEOg+MGf6vzX+EaRLB99lfngsd9kV+OPxcv+xbuY3Swg75PPuyXvKG4dEV0GERo10BflFW8Adv12I/xlFTdhwA==}
+  '@threlte/extras@9.13.2':
+    resolution: {integrity: sha512-fnE7lTX4LEqmIfyDKMVU3Y7CSooby7gBC85KniW755jTk3nn3GJ/MlqAPFwnGhWXZwrdY36P+66rEpg+dodhtw==}
     peerDependencies:
       svelte: '>=5'
       three: '>=0.160'
@@ -2712,6 +2727,26 @@ snapshots:
 
   '@pmndrs/msdfonts@1.0.64': {}
 
+  '@pmndrs/uikit-default@1.0.64(three@0.183.2)':
+    dependencies:
+      '@pmndrs/uikit': 1.0.64(three@0.183.2)
+      '@pmndrs/uikit-lucide': 1.0.64(three@0.183.2)
+    transitivePeerDependencies:
+      - three
+
+  '@pmndrs/uikit-horizon@1.0.64(three@0.183.2)':
+    dependencies:
+      '@pmndrs/uikit': 1.0.64(three@0.183.2)
+      '@pmndrs/uikit-lucide': 1.0.64(three@0.183.2)
+    transitivePeerDependencies:
+      - three
+
+  '@pmndrs/uikit-lucide@1.0.64(three@0.183.2)':
+    dependencies:
+      '@pmndrs/uikit': 1.0.64(three@0.183.2)
+    transitivePeerDependencies:
+      - three
+
   '@pmndrs/uikit-pub-sub@1.0.64':
     dependencies:
       '@preact/signals-core': 1.14.0
@@ -2869,7 +2904,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/three'
 
-  '@threlte/extras@9.13.1(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2)':
+  '@threlte/extras@9.13.2(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2)':
     dependencies:
       '@threejs-kit/instanced-sprite-mesh': 2.5.1(@types/three@0.183.1)(three@0.183.2)
       camera-controls: 3.1.2(three@0.183.2)
@@ -2882,10 +2917,10 @@ snapshots:
     transitivePeerDependencies:
       - '@types/three'
 
-  '@threlte/test@1.0.0(@threlte/core@8.5.4(svelte@5.55.0)(three@0.183.2))(@threlte/extras@9.13.1(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2))(svelte@5.55.0)':
+  '@threlte/test@1.0.0(@threlte/core@8.5.4(svelte@5.55.0)(three@0.183.2))(@threlte/extras@9.13.2(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2))(svelte@5.55.0)':
     dependencies:
       '@threlte/core': 8.5.4(svelte@5.55.0)(three@0.183.2)
-      '@threlte/extras': 9.13.1(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2)
+      '@threlte/extras': 9.13.2(@types/three@0.183.1)(svelte@5.55.0)(three@0.183.2)
       svelte: 5.55.0
 
   '@tweakpane/core@2.0.5': {}

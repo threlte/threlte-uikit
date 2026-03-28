@@ -1,9 +1,6 @@
 // Contexts
-export { provideDefaultProperties } from './useDefaultProperties'
-export { provideFontFamilies } from './useFontFamilies'
-
-// Build utilities
-export { useRenderContext, build } from './build.svelte'
+export { provideDefaultProperties } from './useDefaultProperties.js'
+export { provideFontFamilies } from './useFontFamilies.svelte.js'
 
 export {
   basedOnPreferredColorScheme,
@@ -57,4 +54,5 @@ export { default as Textarea } from './components/Textarea.svelte'
 export { default as Video } from './components/Video.svelte'
 
 // Event types
-export type { EventHandlers } from './Events'
+export type { EventHandlers } from './Events.js'
+

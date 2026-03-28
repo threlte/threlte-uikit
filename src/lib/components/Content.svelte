@@ -3,7 +3,7 @@
   import { Content as VanillaContent, type ContentProperties } from '@pmndrs/uikit'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events'
+  import type { EventHandlers } from '$lib/Events.js'
 
   type Props = ContentProperties & {
     ref?: VanillaContent

@@ -1,13 +1,16 @@
 <script lang="ts">
   import {
     Container,
-    Text,
-    Image,
     Content,
+    Custom,
+    Image,
+    Input,
     SVG,
+    Text,
+    Textarea,
     Video,
     type VanillaContainer,
-  } from '$lib'
+  } from '$lib/index.js'
   import { T, useTask } from '@threlte/core'
   import { OrbitControls, interactivity } from '@threlte/extras'
   import Fullscreen from './Fullscreen.svelte'
@@ -16,16 +19,12 @@
   interactivity()
 
   let elapsed = 0
-
   let root = $state<VanillaContainer>()
   let cube = new Mesh()
 
   useTask((delta) => {
     elapsed += delta
-
-    const d = Math.sin(elapsed * 5) * 20
-    root?.resetProperties({ width: 330 + d })
-
+    root?.resetProperties({ width: 330 + Math.sin(elapsed * 5) * 20 })
     cube.rotation.x += delta
     cube.rotation.y += delta
   })
@@ -39,13 +38,16 @@
 
 <T.PerspectiveCamera
   makeDefault
-  position={[5, 5, 10]}
+  position={[5, 5, 15]}
   oncreate={(ref) => ref.lookAt(0, 0, 0)}
 >
   <OrbitControls enableDamping />
 </T.PerspectiveCamera>
 
-<T.Group>
+<T.Group
+  position.x={0}
+  position.y={0}
+>
   <Container
     bind:ref={root}
     alignItems="center"
@@ -56,41 +58,27 @@
     padding={20}
     height={300}
     backgroundColor="#fff"
-    hover={{
-      backgroundColor: '#ccc',
-    }}
+    hover={{ backgroundColor: '#ccc' }}
   >
     <SVG
       src="./svelte.svg"
       width={100}
       padding={5}
     />
-
     <Container
       width="100%"
       padding={5}
       justifyContent="center"
       alignItems="center"
       backgroundColor="red"
-      hover={{
-        backgroundColor: 'purple',
-      }}
-      active={{
-        backgroundColor: 'black',
-      }}
-      onclick={() => {
-        console.log('click container')
-      }}
-      onpointerdown={(event) => console.log('pointerdown container', event)}
-      onpointerup={(event) => console.log('pointerup container', event)}
-      onpointerenter={() => (event) => console.log('pointerenter container', event)}
-      onpointerleave={() => (event) => console.log('pointerleave container', event)}
+      hover={{ backgroundColor: 'purple' }}
+      active={{ backgroundColor: 'black' }}
+      onclick={() => console.log('click container')}
     >
       <Text
         fontSize={30}
         text="hello uikit!"
         color="#fff"
-        onclick={(event) => console.log('click text', event)}
       />
     </Container>
     <Image
@@ -100,7 +88,10 @@
   </Container>
 </T.Group>
 
-<T.Group position.x={4}>
+<T.Group
+  position.x={4}
+  position.y={0}
+>
   <Container>
     <Content
       width={100}
@@ -110,7 +101,6 @@
     >
       <T
         is={cube}
-        name="thingy"
         rotation.x={Math.PI / 4}
         rotation.y={Math.PI / 4}
         position.z={-1}
@@ -119,6 +109,48 @@
         <T.MeshToonMaterial color="turquoise" />
       </T>
     </Content>
+  </Container>
+</T.Group>
+
+<T.Group
+  position.x={8}
+  position.y={0}
+>
+  <Container
+    flexDirection="column"
+    gap={8}
+    padding={10}
+    backgroundColor="#fff"
+    borderColor="#ccc"
+    borderWidth={1}
+    width={200}
+  >
+    <Text
+      fontSize={12}
+      text="Input / Textarea / Custom"
+      color="#666"
+    />
+    <Input
+      height={32}
+      fontSize={13}
+      backgroundColor="#f5f5f5"
+      borderColor="#aaa"
+      borderWidth={1}
+      padding={6}
+      placeholder="type here..."
+    />
+    <Textarea
+      height={60}
+      fontSize={13}
+      backgroundColor="#f5f5f5"
+      borderColor="#aaa"
+      borderWidth={1}
+      padding={6}
+    />
+    <Custom
+      width={50}
+      height={50}
+    ></Custom>
   </Container>
 </T.Group>
 

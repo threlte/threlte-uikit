@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Fullscreen, Container, Text } from '$lib'
+  import { Fullscreen, Container, Text } from '$lib/index.js'
 
   let active = false
 </script>
