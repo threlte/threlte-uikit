@@ -1,16 +1,24 @@
 <script lang="ts">
-  import { Root, Container, Text, Image, Content, SVG, Video, type VanillaContainer } from '$lib'
+  import {
+    Container,
+    Text,
+    Image,
+    Content,
+    SVG,
+    Video,
+    type VanillaContainer,
+  } from '$lib'
   import { T, useTask } from '@threlte/core'
   import { OrbitControls, interactivity } from '@threlte/extras'
   import Fullscreen from './Fullscreen.svelte'
-  import type { Mesh } from 'three'
+  import { Mesh } from 'three'
 
   interactivity()
 
   let elapsed = 0
 
-  let root: VanillaContainer
-  let cube: Mesh
+  let root = $state<VanillaContainer>()
+  let cube = new Mesh()
 
   useTask((delta) => {
     elapsed += delta
@@ -22,7 +30,7 @@
     cube.rotation.y += delta
   })
 
-  let clicked = false
+  let clicked = $state(false)
 </script>
 
 <svelte:window onclick={() => (clicked = true)} />
@@ -32,13 +40,13 @@
 <T.PerspectiveCamera
   makeDefault
   position={[5, 5, 10]}
-  on:create={({ ref }) => ref.lookAt(0, 0, 0)}
+  oncreate={(ref) => ref.lookAt(0, 0, 0)}
 >
-  <OrbitControls autoRotate />
+  <OrbitControls enableDamping />
 </T.PerspectiveCamera>
 
 <T.Group>
-  <Root
+  <Container
     bind:ref={root}
     alignItems="center"
     justifyContent="center"
@@ -54,9 +62,10 @@
   >
     <SVG
       src="./svelte.svg"
-      width={30}
+      width={100}
       padding={5}
     />
+
     <Container
       width="100%"
       padding={5}
@@ -69,10 +78,12 @@
       active={{
         backgroundColor: 'black',
       }}
-      onclick={() => console.log('click container')}
+      onclick={() => {
+        console.log('click container')
+      }}
     >
       <Text
-        fontSize={40}
+        fontSize={30}
         text="hello uikit!"
         color="#fff"
         onclick={(event) => console.log('click text', event)}
@@ -81,22 +92,22 @@
       />
     </Container>
     <Image
-      width="100%"
+      width={200}
       src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
     />
-  </Root>
+  </Container>
 </T.Group>
 
 <T.Group position.x={4}>
-  <Root>
+  <Container>
     <Content
       width={100}
       height={100}
       backgroundColor="#eee"
       depthAlign="back"
     >
-      <T.Mesh
-        bind:ref={cube}
+      <T
+        is={cube}
         name="thingy"
         rotation.x={Math.PI / 4}
         rotation.y={Math.PI / 4}
@@ -104,14 +115,14 @@
       >
         <T.BoxGeometry args={[0.1, 0.1, 0.1]} />
         <T.MeshToonMaterial color="turquoise" />
-      </T.Mesh>
+      </T>
     </Content>
-  </Root>
+  </Container>
 </T.Group>
 
 {#if clicked}
   <T.Group position.y={3}>
-    <Root
+    <Container
       height={200}
       width={400}
     >
@@ -120,7 +131,7 @@
         borderRadius={10}
         src="/BigBuckBunny_320x180.mp4"
       />
-    </Root>
+    </Container>
   </T.Group>
 {/if}
 

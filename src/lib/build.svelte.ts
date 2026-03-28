@@ -1,4 +1,4 @@
-import { useThrelte } from '@threlte/core'
+import { useThrelte, useTask } from '@threlte/core'
 import { reversePainterSortStable, type Component, type RenderContext } from '@pmndrs/uikit'
 import { createHandlers } from './createHandlers.svelte'
 import { useDefaultProperties } from './useDefaultProperties'
@@ -36,6 +36,10 @@ export function build<T extends Component>(
   // @TODO: Remove optional once @threlte/test supports webgl2 context mocking
   renderer.localClippingEnabled = true
   renderer.setTransparentSort?.(reversePainterSortStable)
+
+  // Component.update has a root guard so only the
+  // actual root component does real work; non-root calls are no-ops.
+  useTask((delta) => component.update(delta * 1000), { autoInvalidate: false })
 
   $effect.pre(() => {
     const p = props() as Record<string, unknown>

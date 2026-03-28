@@ -20,14 +20,23 @@ const uikitToSvelteKeys: Array<[keyof EventHandlersProperties, string]> = [
 export const createHandlers = (handlers: ReadonlySignal<EventHandlersProperties>) => {
   const reactiveHandlers = fromStore(handlers)
 
+  // Always include all handlers as permanent wrappers so Threlte's interactivity
+  // plugin registers the object at init time (it bails if no handlers are present).
+  // Hover/active conditionals add onpointerenter/onpointerleave to component.handlers
+  // after the first resetProperties call — too late for Threlte to pick them up if
+  // we only include handlers that are currently set.
   const allHandlers = $derived.by(() => {
-    const obj: Record<string, unknown> = {}
     const h = reactiveHandlers.current
+    const obj: Record<string, unknown> = {}
 
     for (const [uikitKey, svelteKey] of uikitToSvelteKeys) {
-      const handler = h[uikitKey]
-      if (handler != null) {
-        obj[svelteKey] = handler
+      obj[svelteKey] = (event: any) => {
+        const handler = h[uikitKey]
+        if (handler == null) return
+        // Threlte wraps the native event in `event.nativeEvent`, but uikit handlers
+        // destructure properties like `pointerId` from the top level. Merge the
+        // native event into the top level so both can be accessed.
+        handler(event?.nativeEvent != null ? { ...event.nativeEvent, ...event } : event)
       }
     }
 
