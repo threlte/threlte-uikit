@@ -81,14 +81,16 @@
       onclick={() => {
         console.log('click container')
       }}
+      onpointerdown={(event) => console.log('pointerdown container', event)}
+      onpointerup={(event) => console.log('pointerup container', event)}
+      onpointerenter={() => (event) => console.log('pointerenter container', event)}
+      onpointerleave={() => (event) => console.log('pointerleave container', event)}
     >
       <Text
         fontSize={30}
         text="hello uikit!"
         color="#fff"
         onclick={(event) => console.log('click text', event)}
-        onpointerdown={(event) => console.log('pointerdown text', event)}
-        onpointerup={(event) => console.log('pointerup text', event)}
       />
     </Container>
     <Image

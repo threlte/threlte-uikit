@@ -64,6 +64,7 @@ export function build<T extends Component>(
       component.classList.set()
       return
     }
+
     component.classList.set(...classList)
   })
 

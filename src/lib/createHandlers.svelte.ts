@@ -20,23 +20,22 @@ const uikitToSvelteKeys: Array<[keyof EventHandlersProperties, string]> = [
 export const createHandlers = (handlers: ReadonlySignal<EventHandlersProperties>) => {
   const reactiveHandlers = fromStore(handlers)
 
-  // Always include all handlers as permanent wrappers so Threlte's interactivity
-  // plugin registers the object at init time (it bails if no handlers are present).
-  // Hover/active conditionals add onpointerenter/onpointerleave to component.handlers
-  // after the first resetProperties call — too late for Threlte to pick them up if
-  // we only include handlers that are currently set.
   const allHandlers = $derived.by(() => {
-    const h = reactiveHandlers.current
     const obj: Record<string, unknown> = {}
+    const h = reactiveHandlers.current
 
     for (const [uikitKey, svelteKey] of uikitToSvelteKeys) {
-      obj[svelteKey] = (event: any) => {
-        const handler = h[uikitKey]
-        if (handler == null) return
-        // Threlte wraps the native event in `event.nativeEvent`, but uikit handlers
-        // destructure properties like `pointerId` from the top level. Merge the
-        // native event into the top level so both can be accessed.
-        handler(event?.nativeEvent != null ? { ...event.nativeEvent, ...event } : event)
+      const handler = h[uikitKey]
+      if (handler != null) {
+        // uikit handlers destructure `pointerId` from the top-level event object
+        // (e.g. `({ pointerId }) => { if (pointerId == null) return; ... }`).
+        // Threlte puts the native PointerEvent in `event.nativeEvent`. DOM Event
+        // properties are not enumerable own properties, so `{ ...event.nativeEvent }`
+        // gives `{}` — pointerId is never spread in. We explicitly copy it.
+        obj[svelteKey] = (event: any) => {
+          const native = event?.nativeEvent
+          handler(native != null ? { pointerId: native.pointerId, ...event } : event)
+        }
       }
     }
 
