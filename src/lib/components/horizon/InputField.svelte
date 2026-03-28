@@ -15,10 +15,29 @@
   const component = new InputField(undefined, undefined, { renderContext })
 
   const { handlers } = build(component, () => rest)
+
+  function forwardClick(event: any) {
+    component.dispatchEvent({ type: 'click', stopPropagation: event.stopPropagation } as any)
+  }
+
+  function forwardPointer(type: string, event: any) {
+    component.input.input.dispatchEvent({
+      type,
+      pointerId: event.nativeEvent.pointerId,
+      point: event.point,
+      stopPropagation: event.stopPropagation,
+    } as any)
+  }
 </script>
 
 <T
   bind:ref
   is={component}
   {...handlers.current}
+  onclick={(event) => forwardClick(event)}
+  onpointerdown={(event) => forwardPointer('pointerdown', event)}
+  onpointermove={(event) => forwardPointer('pointermove', event)}
+  onpointerup={(event) => forwardPointer('pointerup', event)}
+  onpointerleave={(event) => forwardPointer('pointerleave', event)}
+  onpointercancel={(event) => forwardPointer('pointercancel', event)}
 />
