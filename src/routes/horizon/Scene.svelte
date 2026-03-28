@@ -21,6 +21,14 @@
     Slider,
     Toggle,
   } from '$lib/components/horizon/index.js'
+  import { Icon } from '$lib/components/lucide/index.js'
+  import {
+    MailIcon,
+    SearchIcon,
+    SlidersHorizontalIcon,
+    StarIcon,
+    TriangleAlertIcon,
+  } from '$lib/components/lucide/index.js'
   import { T } from '@threlte/core'
   import { OrbitControls, interactivity } from '@threlte/extras'
 
@@ -104,6 +112,7 @@
       <Badge
         variant="positive"
         label="Good"
+        icon={StarIcon}
       />
       <Badge
         variant="negative"
@@ -132,6 +141,23 @@
       <Avatar
         src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
         size="lg"
+      />
+    </Container>
+    <Divider />
+    <Text
+      fontSize={12}
+      text="Icon"
+      color="#666"
+    />
+    <Container
+      flexDirection="row"
+      gap={8}
+      alignItems="center"
+    >
+      <Icon
+        is={TriangleAlertIcon}
+        width={24}
+        height={24}
       />
     </Container>
   </Panel>
@@ -181,6 +207,7 @@
       min={0}
       max={100}
       onValueChange={(v) => (sliderValue = v)}
+      icon={SlidersHorizontalIcon}
     />
     <Text
       fontSize={12}
@@ -240,6 +267,7 @@
       variant="text"
       textAlign="left"
       placeholder="Type here..."
+      leftIcon={SearchIcon}
     />
     <Text
       fontSize={12}
@@ -251,6 +279,7 @@
       variant="text"
       textAlign="left"
       placeholder="you@example.com"
+      leftIcon={MailIcon}
     />
     <Text
       fontSize={12}

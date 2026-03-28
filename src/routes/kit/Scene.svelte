@@ -1,7 +1,10 @@
 <script lang="ts">
   import { Text } from '$lib/index.js'
+  import { Icon } from '$lib/components/lucide/index.js'
+  import { InfoIcon, TriangleAlertIcon } from '$lib/components/lucide/index.js'
   import {
     Alert,
+    AlertIcon,
     AlertTitle,
     AlertDescription,
     Accordion,
@@ -508,13 +511,14 @@
     width={220}
   >
     <Alert>
-      <AlertTitle
+      <AlertIcon><Icon is={InfoIcon} width={16} height={16} /></AlertIcon>
+      <AlertTitle paddingLeft={24}
         ><Text
           fontSize={14}
           text="Heads up!"
         /></AlertTitle
       >
-      <AlertDescription
+      <AlertDescription paddingLeft={24}
         ><Text
           fontSize={13}
           text="You can add components to your app."
@@ -522,13 +526,14 @@
       >
     </Alert>
     <Alert variant="destructive">
-      <AlertTitle
+      <AlertIcon><Icon is={TriangleAlertIcon} width={16} height={16} /></AlertIcon>
+      <AlertTitle paddingLeft={24}
         ><Text
           fontSize={14}
           text="Error"
         /></AlertTitle
       >
-      <AlertDescription
+      <AlertDescription paddingLeft={24}
         ><Text
           fontSize={13}
           text="Your session has expired."

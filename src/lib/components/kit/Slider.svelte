@@ -3,7 +3,7 @@
   import type { SliderProperties } from '@pmndrs/uikit-default'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events'
+  import type { EventHandlers } from '$lib/Events.js'
 
   type Props = SliderProperties & {
     ref?: Slider

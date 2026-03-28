@@ -17,6 +17,9 @@ importers:
       '@pmndrs/uikit-horizon':
         specifier: ^1.0.64
         version: 1.0.64(three@0.183.2)
+      '@pmndrs/uikit-lucide':
+        specifier: ^1.0.64
+        version: 1.0.64(three@0.183.2)
       '@preact/signals-core':
         specifier: ^1.14.0
         version: 1.14.0

@@ -37,6 +37,10 @@
     "./horizon": {
       "types": "./dist/components/horizon/index.d.ts",
       "svelte": "./dist/components/horizon/index.js"
+    },
+    "./lucide": {
+      "types": "./dist/components/lucide/index.d.ts",
+      "svelte": "./dist/components/lucide/index.js"
     }
   },
   "files": [
@@ -48,6 +52,7 @@
     "@pmndrs/uikit": "^1.0.64",
     "@pmndrs/uikit-default": "^1.0.64",
     "@pmndrs/uikit-horizon": "^1.0.64",
+    "@pmndrs/uikit-lucide": "^1.0.64",
     "@preact/signals-core": "^1.14.0"
   },
   "peerDependencies": {

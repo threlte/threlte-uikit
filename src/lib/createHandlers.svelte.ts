@@ -17,6 +17,12 @@ const uikitToSvelteKeys: Array<[keyof EventHandlersProperties, string]> = [
   ['onWheel', 'onwheel'],
 ]
 
+// uikit components use a shared PlaneGeometry (2 triangles). A ray through the
+// centre can hit both faces, causing Threlte to call each handler twice for the
+// same native event. Deduplicate per (nativeEvent, eventType) pair using the
+// native event object as a WeakMap key so entries are GC'd automatically.
+const fired = new WeakMap<object, Set<string>>()
+
 export const createHandlers = (handlers: ReadonlySignal<EventHandlersProperties>) => {
   const reactiveHandlers = fromStore(handlers)
 
@@ -34,6 +40,12 @@ export const createHandlers = (handlers: ReadonlySignal<EventHandlersProperties>
         // gives `{}` — pointerId is never spread in. We explicitly copy it.
         obj[svelteKey] = (event: any) => {
           const native = event?.nativeEvent
+          if (native != null) {
+            let keys = fired.get(native)
+            if (keys === undefined) fired.set(native, (keys = new Set()))
+            if (keys.has(svelteKey)) return
+            keys.add(svelteKey)
+          }
           handler(native != null ? { pointerId: native.pointerId, ...event } : event)
         }
       }
