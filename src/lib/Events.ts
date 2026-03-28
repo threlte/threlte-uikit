@@ -1,22 +1,4 @@
-import type { Intersection } from 'three'
 import type { IntersectionEvent } from '@threlte/extras'
-
-export type ThreeEvent<TSourceEvent> = Intersection & {
-  nativeEvent: TSourceEvent
-  defaultPrevented?: boolean
-  stopped?: boolean
-  stopPropagation?: () => void
-}
-
-export type EventMap = {
-  mouse: ThreeEvent<MouseEvent>
-  wheel: ThreeEvent<WheelEvent>
-  pointer: ThreeEvent<PointerEvent>
-}
-
-export type KeyToEvent<K extends keyof EventHandlers> = Parameters<
-  Required<EventHandlers>[K]
->[0]
 
 export type EventHandlers = {
   onclick?: (event: IntersectionEvent<MouseEvent>) => void

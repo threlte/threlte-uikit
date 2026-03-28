@@ -1,15 +1,13 @@
 import { getContext, setContext } from 'svelte'
-import type { AllOptionalProperties } from '@pmndrs/uikit/internals'
+import type { ContainerProperties } from '@pmndrs/uikit'
 
 const contextKey = Symbol('default-props-context')
 
 interface Context {
-  current: AllOptionalProperties
+  current: ContainerProperties
 }
 
-export const provideDefaultProperties = (
-  defaultProperties: () => AllOptionalProperties
-) => {
+export const provideDefaultProperties = (defaultProperties: () => ContainerProperties) => {
   setContext<Context>(contextKey, {
     get current() {
       return defaultProperties()

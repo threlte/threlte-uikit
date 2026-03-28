@@ -1,14 +1,5 @@
 <script lang="ts">
-  import {
-    Root,
-    Container,
-    Text,
-    Image,
-    Content,
-    SVG,
-    Video,
-    type ComponentInternals,
-  } from '$lib'
+  import { Root, Container, Text, Image, Content, SVG, Video, type VanillaContainer } from '$lib'
   import { T, useTask } from '@threlte/core'
   import { OrbitControls, interactivity } from '@threlte/extras'
   import Fullscreen from './Fullscreen.svelte'
@@ -18,14 +9,14 @@
 
   let elapsed = 0
 
-  let root: ComponentInternals
+  let root: VanillaContainer
   let cube: Mesh
 
   useTask((delta) => {
     elapsed += delta
 
     const d = Math.sin(elapsed * 5) * 20
-    root.setStyle({ width: 330 + d })
+    root?.resetProperties({ width: 330 + d })
 
     cube.rotation.x += delta
     cube.rotation.y += delta
@@ -90,7 +81,6 @@
       />
     </Container>
     <Image
-      name="Image"
       width="100%"
       src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
     />
@@ -126,7 +116,6 @@
       width={400}
     >
       <Video
-        name="video"
         autoplay
         borderRadius={10}
         src="/BigBuckBunny_320x180.mp4"

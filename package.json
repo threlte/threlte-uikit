@@ -37,7 +37,7 @@
     "!dist/**/*.spec.*"
   ],
   "dependencies": {
-    "@pmndrs/uikit": "^0.8.21",
+    "@pmndrs/uikit": "^1.0.0",
     "@preact/signals-core": "^1.11.0"
   },
   "peerDependencies": {

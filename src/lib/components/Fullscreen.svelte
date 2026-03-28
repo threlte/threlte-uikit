@@ -1,80 +1,44 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import { Object3D, type PerspectiveCamera, type OrthographicCamera } from 'three'
-  import { useThrelte, T, useTask } from '@threlte/core'
-  import { batch, signal } from '@preact/signals-core'
-  import {
-    updateSizeFullscreen,
-    type FullscreenProperties,
-  } from '@pmndrs/uikit/internals'
-  import Root from './Root.svelte'
-  import type { ComponentInternals } from '$lib/useInternals'
+  import { Fullscreen as VanillaFullscreen, type FullscreenProperties } from '@pmndrs/uikit'
+  import { T, useThrelte, useTask } from '@threlte/core'
+  import { build, useRenderContext } from '$lib/build.svelte'
   import type { EventHandlers } from '$lib/Events'
 
   type Props = FullscreenProperties & {
-    ref?: ComponentInternals<FullscreenProperties>
-    name?: string
-    distanceToCamera?: number
+    ref?: VanillaFullscreen
     camera?: PerspectiveCamera | OrthographicCamera
     children?: Snippet
   } & EventHandlers
 
-  let {
-    ref = $bindable(),
-    distanceToCamera,
-    camera: userCamera,
-    children,
-    ...rest
-  }: Props = $props()
+  let { ref = $bindable(), camera: userCamera, children, ...rest }: Props = $props()
 
-  const { size, camera: defaultCamera } = useThrelte()
+  const { renderer, camera: defaultCamera, shouldRender, scheduler, renderStage } = useThrelte()
+  const renderContext = useRenderContext()
+  const component = new VanillaFullscreen(renderer, undefined, undefined, { renderContext })
+  ref = component
 
-  const [sizeX, sizeY, pixelSize] = $derived.by(() => {
-    const xSizeSignal = signal(1)
-    const ySizeSignal = signal(1)
-    const pixelSizeSignal = signal(1)
+  const { handlers } = build(component, () => rest)
 
-    updateSizeFullscreen(
-      xSizeSignal,
-      ySizeSignal,
-      pixelSizeSignal,
-      distance,
-      camera,
-      $size.height
-    )
-
-    return [xSizeSignal, ySizeSignal, pixelSizeSignal]
-  })
-
-  const camera = $derived(userCamera ?? $defaultCamera)
-
-  const distance = $derived(
-    distanceToCamera ? distanceToCamera : (camera as PerspectiveCamera).near + 0.1
+  useTask(
+    (delta) => {
+      if (shouldRender()) {
+        component.update(delta * 1000)
+      }
+    },
+    {
+      autoInvalidate: false,
+      stage: scheduler.createStage(Symbol('uikit-fullscreen'), { before: renderStage }),
+    }
   )
 
-  useTask(() => {
-    batch(() =>
-      updateSizeFullscreen(sizeX, sizeY, pixelSize, distance, camera, $size.height)
-    )
-  })
-
-  const group = new Object3D()
-
-  let p = $derived($pixelSize)
+  const wrapper = new Object3D()
+  const camera = $derived(userCamera ?? $defaultCamera)
 </script>
 
-<T
-  is={group}
-  position.z={-distance}
-  attach={camera}
->
-  <Root
-    bind:ref
-    {...rest}
-    {sizeX}
-    {sizeY}
-    pixelSize={p}
-  >
+<T is={wrapper} attach={camera}>
+  <T is={component} {...handlers.current}>
     {@render children?.()}
-  </Root>
+  </T>
 </T>
