@@ -1,6 +1,6 @@
 import type { IntersectionEvent } from '@threlte/extras'
 
-export type EventHandlers = {
+export interface EventHandlers {
   onclick?: (event: IntersectionEvent<MouseEvent>) => void
   oncontextmenu?: (event: IntersectionEvent<MouseEvent>) => void
   ondblclick?: (event: IntersectionEvent<MouseEvent>) => void

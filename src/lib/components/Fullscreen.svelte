@@ -22,8 +22,6 @@
   const component = new VanillaFullscreen(renderer, undefined, undefined, {
     renderContext,
   })
-  ref = component
-
   const { handlers } = build(component, () => rest)
 
   const wrapper = new Object3D()
@@ -35,6 +33,7 @@
   attach={camera}
 >
   <T
+    bind:ref
     is={component}
     {...handlers.current}
   >

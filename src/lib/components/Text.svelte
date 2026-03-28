@@ -13,9 +13,11 @@
 
   const renderContext = useRenderContext()
   const component = new VanillaText(undefined, undefined, { renderContext })
-  ref = component
-
   const { handlers } = build(component, () => ({ ...rest, text }))
 </script>
 
-<T is={component} {...handlers.current} />
+<T
+  bind:ref
+  is={component}
+  {...handlers.current}
+/>

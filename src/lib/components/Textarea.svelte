@@ -12,9 +12,11 @@
 
   const renderContext = useRenderContext()
   const component = new VanillaTextarea(undefined, undefined, { renderContext })
-  ref = component
-
   const { handlers } = build(component, () => rest)
 </script>
 
-<T is={component} {...handlers.current} />
+<T
+  bind:ref
+  is={component}
+  {...handlers.current}
+/>

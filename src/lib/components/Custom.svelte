@@ -19,6 +19,10 @@
   const { handlers } = build(component, () => rest)
 </script>
 
-<T is={component} {...handlers.current}>
+<T
+  bind:ref
+  is={component}
+  {...handlers.current}
+>
   {@render children?.()}
 </T>
