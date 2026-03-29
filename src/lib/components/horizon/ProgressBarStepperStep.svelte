@@ -5,7 +5,8 @@
   import { build, useRenderContext } from '$lib/build.svelte'
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  interface Props extends WithoutUikitHandlers<ProgressBarStepperStepProperties>, EventHandlers {
+  interface Props
+    extends WithoutUikitHandlers<ProgressBarStepperStepProperties>, EventHandlers {
     ref?: ProgressBarStepperStep
   }
 

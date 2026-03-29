@@ -5,7 +5,8 @@
   import { build, useRenderContext } from '$lib/build.svelte'
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  interface Props extends WithoutUikitHandlers<DropdownTextValueProperties>, EventHandlers {
+  interface Props
+    extends WithoutUikitHandlers<DropdownTextValueProperties>, EventHandlers {
     ref?: DropdownTextValue
   }
 

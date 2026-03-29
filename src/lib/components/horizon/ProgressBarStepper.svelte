@@ -6,7 +6,8 @@
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
 
-  interface Props extends WithoutUikitHandlers<ProgressBarStepperProperties>, EventHandlers {
+  interface Props
+    extends WithoutUikitHandlers<ProgressBarStepperProperties>, EventHandlers {
     ref?: ProgressBarStepper
     children?: Snippet
   }

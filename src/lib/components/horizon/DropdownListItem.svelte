@@ -6,7 +6,8 @@
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
 
-  interface Props extends WithoutUikitHandlers<DropdownListItemProperties>, EventHandlers {
+  interface Props
+    extends WithoutUikitHandlers<DropdownListItemProperties>, EventHandlers {
     ref?: DropdownListItem
     children?: Snippet
   }

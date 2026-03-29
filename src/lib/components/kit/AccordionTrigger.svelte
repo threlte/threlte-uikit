@@ -6,7 +6,8 @@
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
 
-  interface Props extends WithoutUikitHandlers<InProperties<BaseOutProperties>>, EventHandlers {
+  interface Props
+    extends WithoutUikitHandlers<InProperties<BaseOutProperties>>, EventHandlers {
     ref?: AccordionTrigger
     children?: Snippet
   }

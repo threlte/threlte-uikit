@@ -5,7 +5,8 @@
   import { build, useRenderContext } from '$lib/build.svelte'
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  interface Props extends Omit<WithoutUikitHandlers<VideoProperties>, 'children'>, EventHandlers {
+  interface Props
+    extends Omit<WithoutUikitHandlers<VideoProperties>, 'children'>, EventHandlers {
     ref?: VanillaVideo
     children?: Snippet
   }
