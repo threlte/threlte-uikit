@@ -1,7 +1,13 @@
 {
-  "eslint.validate": ["javascript", "javascriptreact", "svelte", "typescript", "typescriptreact"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "svelte",
+    "typescript",
+    "typescriptreact"
+  ],
   "prettier.documentSelectors": ["**/*.svelte"],
-	"[svelte]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+  "[svelte]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

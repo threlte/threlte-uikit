@@ -14,7 +14,10 @@
   let { ref = $bindable(), children, ...rest }: Props = $props()
 
   const renderContext = useRenderContext()
-  const component = new AccordionContent(undefined, undefined, { renderContext })
+  const component = new AccordionContent(undefined, undefined, {
+    renderContext,
+    defaultOverrides: {},
+  })
 
   const { handlers } = build(component, () => rest)
 </script>
