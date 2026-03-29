@@ -562,7 +562,7 @@
         color="#666"
       />
       <KitInput placeholder="Email" />
-      <KitTextarea />
+      <KitTextarea placeholder="Type here.." />
     </Container>
   </Container>
 </T.Group>

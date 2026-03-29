@@ -3,6 +3,7 @@ import { reversePainterSortStable, type Component, type RenderContext } from '@p
 import { createHandlers } from './createHandlers.svelte'
 import { useDefaultProperties } from './useDefaultProperties.js'
 import { useFontFamilies } from './useFontFamilies.svelte.js'
+import { useControlsContext } from './controls.svelte.js'
 import type { EventHandlers } from './Events.js'
 
 const svelteToUikitKeys: Record<string, string> = {
@@ -33,6 +34,7 @@ export function build<T extends Component>(
   const { renderer } = useThrelte()
   const defaultProperties = useDefaultProperties()
   const fontFamilies = useFontFamilies()
+  const controlsContext = useControlsContext()
   // @TODO: Remove optional once @threlte/test supports webgl2 context mocking
   renderer.localClippingEnabled = true
   renderer.setTransparentSort?.(reversePainterSortStable)
@@ -68,5 +70,6 @@ export function build<T extends Component>(
     component.classList.set(...classList)
   })
 
-  return { handlers: createHandlers(component.handlers) }
+  const getControls = () => controlsContext.controls as { enabled: boolean } | undefined
+  return { handlers: createHandlers(component.handlers, getControls), controls: controlsContext }
 }

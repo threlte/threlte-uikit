@@ -23,6 +23,9 @@
       type,
       pointerId: event.nativeEvent.pointerId,
       point: event.point,
+      uv: event.uv,
+      object: event.object,
+      nativeEvent: event.nativeEvent,
       stopPropagation: event.stopPropagation,
     } as any)
   }
@@ -32,6 +35,7 @@
   bind:ref
   is={component}
   {...handlers.current}
+  onclick={() => component.input.focus()}
   onpointerdown={(event) => forward('pointerdown', event)}
   onpointermove={(event) => forward('pointermove', event)}
   onpointerup={(event) => forward('pointerup', event)}

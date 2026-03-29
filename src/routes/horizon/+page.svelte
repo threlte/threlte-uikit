@@ -130,7 +130,6 @@
       <Avatar
         src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
         size="sm"
-        aspectRatio={0.75}
       />
       <Avatar
         src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"

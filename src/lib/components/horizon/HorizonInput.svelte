@@ -27,6 +27,9 @@
       type,
       pointerId: event.nativeEvent.pointerId,
       point: event.point,
+      uv: event.uv,
+      object: event.object,
+      nativeEvent: event.nativeEvent,
       stopPropagation: event.stopPropagation,
     } as any)
   }
