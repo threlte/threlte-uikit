@@ -1,5 +1,11 @@
 # temp
 
+## 2.0.0
+
+### Major Changes
+
+- 4f518ab: Update UIKit to v1. Add exports for default and horizon component kit. Add export for lucide icons. See README.md for migration guidance.
+
 ## 1.2.1
 
 ### Patch Changes
