@@ -3,11 +3,11 @@
   import type { IconIndicatorProperties } from '@pmndrs/uikit-horizon'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  type Props = IconIndicatorProperties & {
+  interface Props extends WithoutUikitHandlers<IconIndicatorProperties>, EventHandlers {
     ref?: IconIndicator
-  } & EventHandlers
+  }
 
   let { ref = $bindable(), ...rest }: Props = $props()
 

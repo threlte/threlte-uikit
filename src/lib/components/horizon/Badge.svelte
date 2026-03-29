@@ -3,11 +3,11 @@
   import type { BadgeProperties } from '@pmndrs/uikit-horizon'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  type Props = BadgeProperties & {
+  interface Props extends WithoutUikitHandlers<BadgeProperties>, EventHandlers {
     ref?: Badge
-  } & EventHandlers
+  }
 
   let { ref = $bindable(), ...rest }: Props = $props()
 

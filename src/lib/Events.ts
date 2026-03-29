@@ -1,4 +1,21 @@
 import type { IntersectionEvent } from '@threlte/extras'
+import type { ScrollListeners } from '@pmndrs/uikit'
+
+// Strips all uikit/native event handler properties from a Properties type so
+// that only the Threlte-typed versions (from EventHandlers below) are visible.
+// The lowercase names are included because Input/Textarea/Video expose native
+// DOM handlers (e.g. onclick: null | ...) that conflict with our typed versions.
+export type WithoutUikitHandlers<T> = Omit<
+  T,
+  | 'onClick' | 'onContextMenu' | 'onDblClick' | 'onWheel'
+  | 'onPointerUp' | 'onPointerDown' | 'onPointerOver' | 'onPointerOut'
+  | 'onPointerEnter' | 'onPointerLeave' | 'onPointerMove' | 'onPointerCancel'
+  | 'onCheckedChange' | 'onValueChange' | 'onOpenChange'
+  | 'onScroll' | 'onActiveChange' | 'onHoverChange' | 'onFocusChange'
+  | 'onclick' | 'oncontextmenu' | 'ondblclick' | 'onwheel' | 'onscroll'
+  | 'onpointerup' | 'onpointerdown' | 'onpointerover' | 'onpointerout'
+  | 'onpointerenter' | 'onpointerleave' | 'onpointermove' | 'onpointercancel'
+>
 
 export interface EventHandlers {
   onclick?: (event: IntersectionEvent<MouseEvent>) => void
@@ -14,4 +31,7 @@ export interface EventHandlers {
   onpointermissed?: (event: IntersectionEvent<PointerEvent>) => void
   onpointercancel?: (event: IntersectionEvent<PointerEvent>) => void
   onwheel?: (event: IntersectionEvent<WheelEvent>) => void
+  onscroll?: ScrollListeners['onScroll']
+  onactivechange?: (active: boolean) => void
+  onhoverchange?: (hover: boolean) => void
 }

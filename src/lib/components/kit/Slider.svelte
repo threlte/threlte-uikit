@@ -3,12 +3,13 @@
   import type { SliderProperties } from '@pmndrs/uikit-default'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Object3DEventMap } from 'three'
 
-  type Props = SliderProperties & {
+  interface Props extends WithoutUikitHandlers<SliderProperties>, EventHandlers {
     ref?: Slider
-  } & EventHandlers
+    onvaluechange?: SliderProperties['onValueChange']
+  }
 
   let { ref = $bindable(), ...rest }: Props = $props()
 

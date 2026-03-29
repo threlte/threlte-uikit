@@ -2,12 +2,12 @@
   import { Text as VanillaText, type TextProperties } from '@pmndrs/uikit'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  type Props = TextProperties & {
+  interface Props extends WithoutUikitHandlers<TextProperties>, EventHandlers {
     ref?: VanillaText
     text: string
-  } & EventHandlers
+  }
 
   let { ref = $bindable(), text, ...rest }: Props = $props()
 

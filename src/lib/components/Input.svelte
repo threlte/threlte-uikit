@@ -2,11 +2,12 @@
   import { Input as VanillaInput, type InputProperties } from '@pmndrs/uikit'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  type Props = InputProperties & {
+  interface Props extends WithoutUikitHandlers<InputProperties>, EventHandlers {
     ref?: VanillaInput
-  } & EventHandlers
+    onfocuschange?: InputProperties['onFocusChange']
+  }
 
   let { ref = $bindable(), ...rest }: Props = $props()
 

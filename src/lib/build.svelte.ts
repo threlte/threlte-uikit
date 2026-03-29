@@ -23,6 +23,13 @@ const svelteToUikitKeys: Record<string, string> = {
   onpointerover: 'onPointerOver',
   onpointerup: 'onPointerUp',
   onwheel: 'onWheel',
+  oncheckedchange: 'onCheckedChange',
+  onvaluechange: 'onValueChange',
+  onopenchange: 'onOpenChange',
+  onscroll: 'onScroll',
+  onactivechange: 'onActiveChange',
+  onhoverchange: 'onHoverChange',
+  onfocuschange: 'onFocusChange',
 }
 
 export function useRenderContext(): RenderContext {
@@ -38,7 +45,7 @@ export function build<T extends Component>(
   const defaultProperties = useDefaultProperties()
   const fontFamilies = useFontFamilies()
   const controlsContext = useControlsContext()
-  // @TODO: Remove optional once @threlte/test supports webgl2 context mocking
+
   renderer.localClippingEnabled = true
   renderer.setTransparentSort?.(reversePainterSortStable)
 

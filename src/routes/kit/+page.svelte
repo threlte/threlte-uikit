@@ -241,7 +241,7 @@
     />
     <Switch
       checked={switchChecked}
-      onCheckedChange={(v) => (switchChecked = v)}
+      oncheckedchange={(v: boolean) => (switchChecked = v)}
     />
     <Text
       fontSize={12}
@@ -255,7 +255,7 @@
     >
       <Checkbox
         checked={checkboxChecked}
-        onCheckedChange={(v) => (checkboxChecked = v)}
+        oncheckedchange={(v: boolean) => (checkboxChecked = v)}
       />
       <Text
         fontSize={13}
@@ -288,7 +288,7 @@
       value={sliderValue}
       min={0}
       max={100}
-      onValueChange={(v) => (sliderValue = v)}
+      onvaluechange={(v: number) => (sliderValue = v)}
     />
     <Separator />
     <Text
@@ -298,7 +298,7 @@
     />
     <RadioGroup
       value={radioValue}
-      onValueChange={(v) => v && (radioValue = v)}
+      onvaluechange={(v?: string) => v && (radioValue = v)}
     >
       <RadioGroupItem value="a"
         ><Text
@@ -330,7 +330,7 @@
     />
     <Toggle
       checked={toggleChecked}
-      onCheckedChange={(v) => (toggleChecked = v)}
+      oncheckedchange={(v: boolean) => (toggleChecked = v)}
     >
       <Text
         fontSize={13}
@@ -454,19 +454,21 @@
         <TabsTrigger
           value="account"
           flexGrow={1}
-          ><Text
+        >
+          <Text
             fontSize={12}
             text="Account"
-          /></TabsTrigger
-        >
+          />
+        </TabsTrigger>
         <TabsTrigger
           value="password"
           flexGrow={1}
-          ><Text
+        >
+          <Text
             fontSize={12}
             text="Password"
-          /></TabsTrigger
-        >
+          />
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Text

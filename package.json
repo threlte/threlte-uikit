@@ -23,7 +23,7 @@
     "prettier": "prettier --check",
     "lint": "svelte-kit sync && prettier --check . && eslint .",
     "format": "prettier --write .",
-    "release": "changeset publish"
+    "release": "changeset publish --provenance"
   },
   "exports": {
     ".": {
@@ -78,7 +78,9 @@
     "camera-controls": "^3.1.2",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-perfectionist": "^5.7.0",
     "eslint-plugin-svelte": "^3.16.0",
+    "eslint-plugin-unicorn": "^64.0.0",
     "globals": "^17.4.0",
     "playwright": "^1.58.2",
     "prettier": "^3.8.1",

@@ -3,11 +3,11 @@
   import type { SkeletonProperties } from '@pmndrs/uikit-default'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  type Props = SkeletonProperties & {
+  interface Props extends WithoutUikitHandlers<SkeletonProperties>, EventHandlers {
     ref?: Skeleton
-  } & EventHandlers
+  }
 
   let { ref = $bindable(), ...rest }: Props = $props()
 

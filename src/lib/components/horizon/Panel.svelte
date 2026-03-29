@@ -3,13 +3,13 @@
   import type { PanelProperties } from '@pmndrs/uikit-horizon'
   import { T } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
 
-  type Props = PanelProperties & {
+  interface Props extends WithoutUikitHandlers<PanelProperties>, EventHandlers {
     ref?: Panel
     children?: Snippet
-  } & EventHandlers
+  }
 
   let { ref = $bindable(), children, ...rest }: Props = $props()
 

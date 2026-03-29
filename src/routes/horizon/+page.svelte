@@ -200,7 +200,7 @@
     />
     <Checkbox
       checked={checkboxChecked}
-      onCheckedChange={(v) => (checkboxChecked = v)}
+      oncheckedchange={(v: boolean) => (checkboxChecked = v)}
     />
     <Text
       fontSize={12}
@@ -209,7 +209,7 @@
     />
     <Toggle
       checked={toggleChecked}
-      onCheckedChange={(v) => (toggleChecked = v)}
+      oncheckedchange={(v: boolean) => (toggleChecked = v)}
     />
     <Text
       fontSize={12}
@@ -226,7 +226,7 @@
       value={sliderValue}
       min={0}
       max={100}
-      onValueChange={(v) => (sliderValue = v)}
+      onvaluechange={(v: number) => (sliderValue = v)}
     />
     <Text
       fontSize={12}
@@ -262,7 +262,7 @@
     />
     <RadioGroup
       value={radioValue}
-      onValueChange={(v) => v && (radioValue = v)}
+      onvaluechange={(v?: string) => v && (radioValue = v)}
     >
       <RadioGroupItem value="x">
         <Text
@@ -307,7 +307,7 @@
     />
     <Dropdown
       value={dropdownValue}
-      onValueChange={(v) => (dropdownValue = v)}
+      onvaluechange={(v?: string) => (dropdownValue = v)}
     >
       <DropdownButton />
       <DropdownTextValue placeholder="Select..." />

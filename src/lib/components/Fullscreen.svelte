@@ -7,13 +7,13 @@
   } from '@pmndrs/uikit'
   import { T, useThrelte } from '@threlte/core'
   import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers } from '$lib/Events.js'
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
 
-  type Props = FullscreenProperties & {
+  interface Props extends WithoutUikitHandlers<FullscreenProperties>, EventHandlers {
     ref?: VanillaFullscreen
     camera?: PerspectiveCamera | OrthographicCamera
     children?: Snippet
-  } & EventHandlers
+  }
 
   let { ref = $bindable(), camera: userCamera, children, ...rest }: Props = $props()
 
