@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { Label } from '@pmndrs/uikit-default'
   import type { LabelProperties } from '@pmndrs/uikit-default'
-  import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
+
+  import { Label } from '@pmndrs/uikit-default'
+  import { T } from '@threlte/core'
+
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<LabelProperties>, EventHandlers {
     ref?: Label

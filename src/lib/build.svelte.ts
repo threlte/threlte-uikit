@@ -1,14 +1,16 @@
-import { useThrelte, useTask } from '@threlte/core'
 import {
-  reversePainterSortStable,
   type Component,
   type RenderContext,
+  reversePainterSortStable,
 } from '@pmndrs/uikit'
+import { useTask, useThrelte } from '@threlte/core'
+
+import type { EventHandlers } from './Events.js'
+
+import { useControlsContext } from './controls.svelte.js'
 import { createHandlers } from './createHandlers.svelte'
 import { useDefaultProperties } from './useDefaultProperties.js'
 import { useFontFamilies } from './useFontFamilies.svelte.js'
-import { useControlsContext } from './controls.svelte.js'
-import type { EventHandlers } from './Events.js'
 
 const svelteToUikitKeys: Record<string, string> = {
   onclick: 'onClick',

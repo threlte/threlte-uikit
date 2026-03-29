@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { Container, isDarkMode, Text } from '$lib/index.js'
+  import { T } from '@threlte/core'
+
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
+  import Fullscreen from '$lib/components/Fullscreen.svelte'
   import {
     Avatar,
     Badge,
@@ -28,10 +32,7 @@
     StarIcon,
     TriangleAlertIcon,
   } from '$lib/components/lucide/index.js'
-  import { T } from '@threlte/core'
-  import Fullscreen from '$lib/components/Fullscreen.svelte'
-  import { goto } from '$app/navigation'
-  import { resolve } from '$app/paths'
+  import { Container, isDarkMode, Text } from '$lib/index.js'
 
   const mutedText = $derived(isDarkMode.current ? '#737373' : '#525252')
   const hoverBg = $derived(

@@ -1,9 +1,12 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Image as VanillaImage, type ImageProperties } from '@pmndrs/uikit'
+
+  import { type ImageProperties, Image as VanillaImage } from '@pmndrs/uikit'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<ImageProperties>, EventHandlers {
     ref?: VanillaImage

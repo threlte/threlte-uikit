@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { ProgressBarStepperStep } from '@pmndrs/uikit-horizon'
   import type { ProgressBarStepperStepProperties } from '@pmndrs/uikit-horizon'
+
+  import { ProgressBarStepperStep } from '@pmndrs/uikit-horizon'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props
     extends WithoutUikitHandlers<ProgressBarStepperStepProperties>, EventHandlers {

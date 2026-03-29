@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Canvas } from '@threlte/core'
+
   import { isDarkMode } from '$lib/isDarkMode.js'
+
   import Scene from './Scene.svelte'
 
   let { children } = $props()

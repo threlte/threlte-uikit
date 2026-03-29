@@ -1,9 +1,12 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Custom as VanillaCustom, type CustomProperties } from '@pmndrs/uikit'
+
+  import { type CustomProperties, Custom as VanillaCustom } from '@pmndrs/uikit'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<CustomProperties>, EventHandlers {
     ref?: VanillaCustom

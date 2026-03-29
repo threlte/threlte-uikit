@@ -1,5 +1,6 @@
-import { getContext, setContext } from 'svelte'
 import type { FontFamilies } from '@pmndrs/uikit'
+
+import { getContext, setContext } from 'svelte'
 
 const contextKey = Symbol('font-family-context')
 

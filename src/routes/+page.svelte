@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { T, useTask } from '@threlte/core'
+  import { Mesh } from 'three'
+
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { Button } from '$lib/components/kit/index.js'
@@ -6,17 +9,15 @@
     Container,
     Content,
     Custom,
+    Fullscreen,
     Image,
     Input,
     SVG,
     Text,
     Textarea,
-    Fullscreen,
-    Video,
     type VanillaContainer,
+    Video,
   } from '$lib/index.js'
-  import { T, useTask } from '@threlte/core'
-  import { Mesh } from 'three'
 
   let elapsed = 0
   let root = $state<VanillaContainer>()

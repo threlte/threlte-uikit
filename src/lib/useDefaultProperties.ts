@@ -1,5 +1,6 @@
-import { getContext, setContext } from 'svelte'
 import type { ContainerProperties } from '@pmndrs/uikit'
+
+import { getContext, setContext } from 'svelte'
 
 const contextKey = Symbol('default-props-context')
 

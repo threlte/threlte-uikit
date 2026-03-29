@@ -1,15 +1,17 @@
 import js from '@eslint/js'
+import prettier from 'eslint-config-prettier'
 import perfectionist from 'eslint-plugin-perfectionist'
+import svelte from 'eslint-plugin-svelte'
 import { defineConfig } from 'eslint/config'
 import globals from 'globals'
-import prettier from 'eslint-config-prettier'
-import svelte from 'eslint-plugin-svelte'
 import ts from 'typescript-eslint'
+
 import svelteConfig from './svelte.config.js'
 
 export default defineConfig(
   prettier,
   js.configs.recommended,
+  perfectionist.configs['recommended-natural'],
   ...ts.configs.recommended,
   ...svelte.configs.recommended,
   ...svelte.configs.prettier,

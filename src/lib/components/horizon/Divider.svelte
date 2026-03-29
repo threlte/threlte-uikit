@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { Divider } from '@pmndrs/uikit-horizon'
   import type { DividerProperties } from '@pmndrs/uikit-horizon'
+
+  import { Divider } from '@pmndrs/uikit-horizon'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<DividerProperties>, EventHandlers {
     ref?: Divider

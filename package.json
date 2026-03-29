@@ -22,7 +22,7 @@
     "test": "vitest --browser.name=chromium --browser.headless",
     "prettier": "prettier --check",
     "lint": "svelte-kit sync && prettier --check . && eslint .",
-    "format": "prettier --write .",
+    "format": "prettier --write . && eslint . --fix",
     "release": "changeset publish --provenance"
   },
   "exports": {

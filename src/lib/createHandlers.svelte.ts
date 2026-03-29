@@ -1,5 +1,6 @@
 import type { EventHandlers as EventHandlersProperties } from '@pmndrs/uikit'
 import type { ReadonlySignal } from '@preact/signals-core'
+
 import { fromStore } from 'svelte/store'
 
 const uikitToSvelteKeys: Array<[keyof EventHandlersProperties, string]> = [

@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { Text as VanillaText, type TextProperties } from '@pmndrs/uikit'
+  import { type TextProperties, Text as VanillaText } from '@pmndrs/uikit'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<TextProperties>, EventHandlers {
     ref?: VanillaText

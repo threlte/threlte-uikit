@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { Textarea as KitTextareaVanilla } from '@pmndrs/uikit-default'
   import type { TextareaProperties } from '@pmndrs/uikit-default'
+  import type { Object3DEventMap } from 'three'
+
+  import { Textarea as KitTextareaVanilla } from '@pmndrs/uikit-default'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   type KitTextareaProperties = TextareaProperties
 
@@ -18,16 +22,17 @@
 
   const { handlers } = build(component, () => rest)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function forward(type: string, event: any) {
     component.input.dispatchEvent({
-      type,
+      type: type as keyof Object3DEventMap,
       pointerId: event.nativeEvent.pointerId,
       point: event.point,
       uv: event.uv,
       object: event.object,
       nativeEvent: event.nativeEvent,
       stopPropagation: event.stopPropagation,
-    } as any)
+    })
   }
 </script>
 

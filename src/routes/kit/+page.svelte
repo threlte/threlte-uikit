@@ -1,25 +1,27 @@
 <script lang="ts">
-  import { Container, isDarkMode, Text } from '$lib/index.js'
-  import { Icon } from '$lib/components/lucide/index.js'
-  import { InfoIcon, TriangleAlertIcon } from '$lib/components/lucide/index.js'
+  import { T } from '@threlte/core'
+
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
+  import Fullscreen from '$lib/components/Fullscreen.svelte'
   import {
-    Alert,
-    AlertIcon,
-    AlertTitle,
-    AlertDescription,
     Accordion,
+    AccordionContent,
     AccordionItem,
     AccordionTrigger,
-    AccordionContent,
+    Alert,
+    AlertDescription,
+    AlertIcon,
+    AlertTitle,
     Avatar,
     Badge,
     Button,
     Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
     Checkbox,
     KitInput,
     KitTextarea,
@@ -32,17 +34,16 @@
     Slider,
     Switch,
     Tabs,
+    TabsContent,
     TabsList,
     TabsTrigger,
-    TabsContent,
     Toggle,
     ToggleGroup,
     ToggleGroupItem,
   } from '$lib/components/kit/index.js'
-  import { T } from '@threlte/core'
-  import Fullscreen from '$lib/components/Fullscreen.svelte'
-  import { goto } from '$app/navigation'
-  import { resolve } from '$app/paths'
+  import { Icon } from '$lib/components/lucide/index.js'
+  import { InfoIcon, TriangleAlertIcon } from '$lib/components/lucide/index.js'
+  import { Container, isDarkMode, Text } from '$lib/index.js'
 
   const dark = $derived(isDarkMode.current)
   const bg = $derived(dark ? '#0a0a0a' : '#ffffff')

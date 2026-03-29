@@ -1,13 +1,16 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { Object3D, type PerspectiveCamera, type OrthographicCamera } from 'three'
+
   import {
-    Fullscreen as VanillaFullscreen,
     type FullscreenProperties,
+    Fullscreen as VanillaFullscreen,
   } from '@pmndrs/uikit'
   import { T, useThrelte } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+  import { Object3D, type OrthographicCamera, type PerspectiveCamera } from 'three'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<FullscreenProperties>, EventHandlers {
     ref?: VanillaFullscreen

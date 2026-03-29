@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { CardTitle } from '@pmndrs/uikit-default'
-  import type { InProperties, BaseOutProperties } from '@pmndrs/uikit'
-  import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+  import type { BaseOutProperties, InProperties } from '@pmndrs/uikit'
   import type { Snippet } from 'svelte'
+
+  import { CardTitle } from '@pmndrs/uikit-default'
+  import { T } from '@threlte/core'
+
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props
     extends WithoutUikitHandlers<InProperties<BaseOutProperties>>, EventHandlers {

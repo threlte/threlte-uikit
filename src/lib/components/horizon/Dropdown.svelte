@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { Dropdown } from '@pmndrs/uikit-horizon'
   import type { DropdownProperties } from '@pmndrs/uikit-horizon'
-  import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
+
+  import { Dropdown } from '@pmndrs/uikit-horizon'
+  import { T } from '@threlte/core'
+
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<DropdownProperties>, EventHandlers {
     ref?: Dropdown
@@ -20,11 +23,17 @@
 
   const { handlers } = build(component, () => rest)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function forwardClick(event: any) {
     component.dispatchEvent({
       type: 'click',
+      point: event.point,
+      uv: event.uv,
+      object: event.object,
+      nativeEvent: event.nativeEvent,
       stopPropagation: event.stopPropagation,
-    } as any)
+      distance: event.distance,
+    })
   }
 </script>
 

@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { Tabs } from '@pmndrs/uikit-default'
   import type { TabsProperties } from '@pmndrs/uikit-default'
-  import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
-  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
   import type { Snippet } from 'svelte'
+
+  import { Tabs } from '@pmndrs/uikit-default'
+  import { T } from '@threlte/core'
+
+  import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<TabsProperties>, EventHandlers {
     ref?: Tabs

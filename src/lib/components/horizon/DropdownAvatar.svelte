@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { DropdownAvatar } from '@pmndrs/uikit-horizon'
   import type { DropdownAvatarProperties } from '@pmndrs/uikit-horizon'
+
+  import { DropdownAvatar } from '@pmndrs/uikit-horizon'
   import { T } from '@threlte/core'
-  import { build, useRenderContext } from '$lib/build.svelte'
+
   import type { EventHandlers, WithoutUikitHandlers } from '$lib/Events.js'
+
+  import { build, useRenderContext } from '$lib/build.svelte'
 
   interface Props extends WithoutUikitHandlers<DropdownAvatarProperties>, EventHandlers {
     ref?: DropdownAvatar

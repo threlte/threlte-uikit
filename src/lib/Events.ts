@@ -1,5 +1,5 @@
-import type { IntersectionEvent } from '@threlte/extras'
 import type { ScrollListeners } from '@pmndrs/uikit'
+import type { IntersectionEvent } from '@threlte/extras'
 
 // Strips all uikit/native event handler properties from a Properties type so
 // that only the Threlte-typed versions (from EventHandlers below) are visible.
