@@ -33,7 +33,6 @@ export function build<T extends Component>(
   const { renderer } = useThrelte()
   const defaultProperties = useDefaultProperties()
   const fontFamilies = useFontFamilies()
-
   // @TODO: Remove optional once @threlte/test supports webgl2 context mocking
   renderer.localClippingEnabled = true
   renderer.setTransparentSort?.(reversePainterSortStable)

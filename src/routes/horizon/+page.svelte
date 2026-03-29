@@ -45,7 +45,7 @@
   position.y={0}
 >
   <Panel
-    width={220}
+    width={230}
     padding={12}
     flexDirection="column"
     gap={8}
@@ -89,6 +89,7 @@
       color="#666"
     />
     <Container
+      display="flex"
       flexDirection="row"
       gap={6}
     >
@@ -100,6 +101,11 @@
         variant="secondary"
         label="Secondary"
       />
+    </Container>
+    <Container
+      flexDirection="row"
+      gap={6}
+    >
       <Badge
         variant="positive"
         label="Good"
@@ -124,6 +130,7 @@
       <Avatar
         src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
         size="sm"
+        aspectRatio={0.75}
       />
       <Avatar
         src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lil-Bub-2013.jpg"
@@ -297,6 +304,45 @@
         </DropdownListItem>
       </DropdownList>
     </Dropdown>
+  </Panel>
+</T.Group>
+
+<!-- Scroll example -->
+
+<T.Group
+  position.x={8}
+  position.y={0}
+>
+  <Panel
+    width={220}
+    padding={12}
+    flexDirection="column"
+    gap={8}
+  >
+    <Text
+      fontSize={12}
+      text="Scrollable list"
+      color="#666"
+    />
+    <Container
+      overflow="scroll"
+      height={160}
+      flexDirection="column"
+      gap={4}
+    >
+      {#each Array.from({ length: 20 }, (_, i) => i + 1) as n}
+        <Container
+          padding={8}
+          borderRadius={8}
+          hover={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+        >
+          <Text
+            fontSize={13}
+            text="Item {n}"
+          />
+        </Container>
+      {/each}
+    </Container>
   </Panel>
 </T.Group>
 

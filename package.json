@@ -74,6 +74,7 @@
     "@types/eslint": "^9.6.1",
     "@types/three": "^0.183.1",
     "@vitest/browser": "^4.1.2",
+    "camera-controls": "^3.1.2",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-svelte": "^3.16.0",

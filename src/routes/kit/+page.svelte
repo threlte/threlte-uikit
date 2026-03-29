@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Text } from '$lib/index.js'
+  import { Container, Text } from '$lib/index.js'
   import { Icon } from '$lib/components/lucide/index.js'
   import { InfoIcon, TriangleAlertIcon } from '$lib/components/lucide/index.js'
   import {
@@ -39,9 +39,8 @@
     ToggleGroup,
     ToggleGroupItem,
   } from '$lib/components/kit/index.js'
-  import { Container } from '$lib/index.js'
   import { T } from '@threlte/core'
-  import { OrbitControls, interactivity } from '@threlte/extras'
+  import { interactivity } from '@threlte/extras'
 
   interactivity()
 
@@ -130,6 +129,11 @@
           text="Secondary"
         />
       </Badge>
+    </Container>
+    <Container
+      flexDirection="row"
+      gap={4}
+    >
       <Badge variant="destructive">
         <Text
           fontSize={11}
@@ -559,6 +563,50 @@
       />
       <KitInput placeholder="Email" />
       <KitTextarea />
+    </Container>
+  </Container>
+</T.Group>
+
+<!-- Scroll example -->
+
+<T.Group
+  position.x={0}
+  position.y={-10}
+>
+  <Container
+    flexDirection="column"
+    gap={6}
+    padding={12}
+    backgroundColor="#fff"
+    borderColor="#ccc"
+    borderWidth={1}
+    width={220}
+  >
+    <Text
+      fontSize={12}
+      text="Scrollable list"
+      color="#666"
+    />
+    <Container
+      overflow="scroll"
+      height={120}
+      flexDirection="column"
+      gap={4}
+    >
+      {#each Array.from({ length: 20 }, (_, i) => i + 1) as n}
+        <Container
+          padding={8}
+          backgroundColor="#f5f5f5"
+          borderRadius={4}
+          hover={{ backgroundColor: '#e8e8e8' }}
+        >
+          <Text
+            fontSize={13}
+            text="Item {n}"
+            color="#333"
+          />
+        </Container>
+      {/each}
     </Container>
   </Container>
 </T.Group>
