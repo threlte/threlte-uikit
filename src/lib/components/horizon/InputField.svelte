@@ -17,7 +17,10 @@
   const { handlers } = build(component, () => rest)
 
   function forwardClick(event: any) {
-    component.dispatchEvent({ type: 'click', stopPropagation: event.stopPropagation } as any)
+    component.dispatchEvent({
+      type: 'click',
+      stopPropagation: event.stopPropagation,
+    } as any)
   }
 
   function forwardPointer(type: string, event: any) {

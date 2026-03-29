@@ -4,7 +4,10 @@ on:
   push:
     branches: [main]
 
-permissions: write-all
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   deploy-and-publish:
@@ -30,13 +33,31 @@ jobs:
         run: |
           pnpm i
           pnpm build
+        env:
+          BASE_PATH: /threlte-uikit
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/
+
+  deploy-pages:
+    needs: deploy-and-publish
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

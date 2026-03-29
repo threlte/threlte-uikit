@@ -1,12 +1,12 @@
 // Contexts
 export { provideDefaultProperties } from './useDefaultProperties.js'
 export { provideFontFamilies } from './useFontFamilies.svelte.js'
+export { isDarkMode } from './isDarkMode.js'
 
 export {
   basedOnPreferredColorScheme,
   setPreferredColorScheme,
   getPreferredColorScheme,
-  isDarkMode,
   canvasInputProps,
   readReactive,
   withOpacity,
@@ -55,4 +55,3 @@ export { default as Video } from './components/Video.svelte'
 
 // Event types
 export type { EventHandlers } from './Events.js'
-

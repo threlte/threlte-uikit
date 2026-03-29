@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
+  import { Button } from '$lib/components/kit/index.js'
   import {
     Container,
     Content,
@@ -13,10 +16,7 @@
     type VanillaContainer,
   } from '$lib/index.js'
   import { T, useTask } from '@threlte/core'
-  import { OrbitControls, interactivity } from '@threlte/extras'
   import { Mesh } from 'three'
-
-  interactivity()
 
   let elapsed = 0
   let root = $state<VanillaContainer>()
@@ -29,40 +29,40 @@
     cube.rotation.y += delta
   })
 
-  let active = $state(false)
   let clicked = $state(false)
 </script>
 
 <svelte:window onclick={() => (clicked = true)} />
 
-<Fullscreen>
-  <Container alignItems="flex-end">
-    <Container
-      backgroundColor={active ? 'black' : '#eee'}
-      hover={{ backgroundColor: active ? 'black' : '#ddd' }}
-      padding={10}
-      margin={10}
-      onclick={() => {
-        active = true
-        navigator.clipboard.writeText('npm i threlte-uikit')
-        setTimeout(() => (active = false), 1000)
-      }}
-    >
+<Fullscreen
+  marginX={15}
+  display="flex"
+  gap={15}
+>
+  <Container
+    alignItems="flex-end"
+    marginY={15}
+  >
+    <Button onclick={() => goto(resolve('/kit'))}>
       <Text
-        text={active ? 'copied!' : 'npm i threlte-uikit'}
-        color={active ? 'white' : 'black'}
+        fontSize={13}
+        text="Default component kit"
       />
-    </Container>
+    </Button>
+  </Container>
+
+  <Container
+    alignItems="flex-end"
+    marginY={15}
+  >
+    <Button onclick={() => goto(resolve('/horizon'))}>
+      <Text
+        fontSize={13}
+        text="Horizon component kit"
+      />
+    </Button>
   </Container>
 </Fullscreen>
-
-<T.PerspectiveCamera
-  makeDefault
-  position={[5, 5, 15]}
-  oncreate={(ref) => ref.lookAt(0, 0, 0)}
->
-  <OrbitControls enableDamping />
-</T.PerspectiveCamera>
 
 <T.Group
   position.x={0}

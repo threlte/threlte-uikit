@@ -21,9 +21,9 @@ export const useControlsContext = () => {
   const context = useThrelteUserContext<ControlsContext>('threlte-controls', {
     orbitControls: writable<OrbitControls | undefined>(undefined),
     trackballControls: writable<TrackballControls | undefined>(undefined),
-    cameraControls: writable<CameraControls | undefined>(undefined)
+    cameraControls: writable<CameraControls | undefined>(undefined),
   })
-  
+
   const orbit = fromStore(context.orbitControls)
   const trackball = fromStore(context.trackballControls)
   const camera = fromStore(context.cameraControls)
@@ -33,6 +33,6 @@ export const useControlsContext = () => {
   return {
     get controls() {
       return controls
-    }
+    },
   }
 }

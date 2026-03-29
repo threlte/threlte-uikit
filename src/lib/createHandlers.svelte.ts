@@ -22,7 +22,8 @@ const enableKeys = new Set(['onpointerup', 'onpointerleave', 'onpointercancel'])
 
 export const createHandlers = (
   handlers: ReadonlySignal<EventHandlersProperties>,
-  getControls?: () => { enabled: boolean } | undefined
+  disableControls?: () => void,
+  enableControls?: () => void
 ) => {
   const reactiveHandlers = fromStore(handlers)
 
@@ -38,15 +39,12 @@ export const createHandlers = (
         // Threlte puts the native PointerEvent in `event.nativeEvent`. DOM Event
         // properties are not enumerable own properties, so `{ ...event.nativeEvent }`
         // gives `{}` — pointerId is never spread in. We explicitly copy it.
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         obj[svelteKey] = (event: any) => {
           const native = event?.nativeEvent
-          if (getControls != null) {
-            const controls = getControls()
-            if (controls != null) {
-              if (disableKeys.has(svelteKey)) controls.enabled = false
-              else if (enableKeys.has(svelteKey)) controls.enabled = true
-            }
-          }
+          if (disableKeys.has(svelteKey)) disableControls?.()
+          else if (enableKeys.has(svelteKey)) enableControls?.()
           handler(native != null ? { pointerId: native.pointerId, ...event } : event)
         }
       }

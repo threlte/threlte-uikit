@@ -14,18 +14,15 @@
   const renderContext = useRenderContext()
   const component = new Slider(undefined, undefined, { renderContext })
 
-  const { handlers, controls } = build(component, () => rest)
+  const { handlers, disableControls, enableControls } = build(component, () => rest)
 
   // Threlte 8 calls registered handlers directly rather than via Object3D.dispatchEvent,
   // so the Slider's internal abortableEffect listeners never fire on their own.
   // We bridge the gap by forwarding events via dispatchEvent so the built-in
   // drag logic (worldToLocal value calculation, uncontrolledSignal, onValueChange) works.
   function forward(type: string, event: any) {
-    const c = controls.controls as { enabled: boolean } | undefined
-    if (c != null) {
-      if (type === 'pointerdown') c.enabled = false
-      else if (type === 'pointerup') c.enabled = true
-    }
+    if (type === 'pointerdown') disableControls()
+    else if (type === 'pointerup') enableControls()
     component.dispatchEvent({
       type,
       pointerId: event.nativeEvent.pointerId,

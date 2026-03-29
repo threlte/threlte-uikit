@@ -15,9 +15,13 @@
   let { is: IconClass, ref = $bindable(), ...rest }: Props = $props()
 
   const renderContext = useRenderContext()
-  const component = new IconClass(undefined, undefined, { renderContext })
+  const component = $derived(new IconClass(undefined, undefined, { renderContext }))
 
-  const { handlers } = build(component, () => rest)
+  const { handlers } = $derived(build(component, () => rest))
 </script>
 
-<T bind:ref is={component} {...handlers.current} />
+<T
+  bind:ref
+  is={component}
+  {...handlers.current}
+/>

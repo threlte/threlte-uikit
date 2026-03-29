@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Container, Text } from '$lib/index.js'
+  import { Container, isDarkMode, Text } from '$lib/index.js'
   import { Icon } from '$lib/components/lucide/index.js'
   import { InfoIcon, TriangleAlertIcon } from '$lib/components/lucide/index.js'
   import {
@@ -40,14 +40,11 @@
     ToggleGroupItem,
   } from '$lib/components/kit/index.js'
   import { T } from '@threlte/core'
-  import { interactivity } from '@threlte/extras'
-  import { isDarkMode } from '@pmndrs/uikit'
-  import { fromStore } from 'svelte/store'
+  import Fullscreen from '$lib/components/Fullscreen.svelte'
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
 
-  interactivity()
-
-  const _dark = fromStore(isDarkMode)
-  const dark = $derived(_dark.current)
+  const dark = $derived(isDarkMode.current)
   const bg = $derived(dark ? '#0a0a0a' : '#ffffff')
   const border = $derived(dark ? '#262626' : '#e5e5e5')
   const mutedText = $derived(dark ? '#737373' : '#525252')
@@ -63,6 +60,24 @@
 </script>
 
 <!-- Row 0: Buttons, Badge, Label, Avatar, Separator, Skeleton -->
+
+<Fullscreen
+  marginX={15}
+  display="flex"
+  gap={15}
+>
+  <Container
+    alignItems="flex-end"
+    marginY={15}
+  >
+    <Button onclick={() => goto(resolve('/'))}>
+      <Text
+        fontSize={13}
+        text="Back"
+      />
+    </Button>
+  </Container>
+</Fullscreen>
 
 <T.Group
   position.x={-4}
@@ -604,7 +619,7 @@
       flexDirection="column"
       gap={4}
     >
-      {#each Array.from({ length: 20 }, (_, i) => i + 1) as n}
+      {#each { length: 20 }, index (index)}
         <Container
           padding={8}
           backgroundColor={muted}
@@ -613,7 +628,7 @@
         >
           <Text
             fontSize={13}
-            text="Item {n}"
+            text="Item {index + 1}"
             color={text}
           />
         </Container>

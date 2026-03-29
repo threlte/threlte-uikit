@@ -1,5 +1,9 @@
 import { useThrelte, useTask } from '@threlte/core'
-import { reversePainterSortStable, type Component, type RenderContext } from '@pmndrs/uikit'
+import {
+  reversePainterSortStable,
+  type Component,
+  type RenderContext,
+} from '@pmndrs/uikit'
 import { createHandlers } from './createHandlers.svelte'
 import { useDefaultProperties } from './useDefaultProperties.js'
 import { useFontFamilies } from './useFontFamilies.svelte.js'
@@ -20,7 +24,6 @@ const svelteToUikitKeys: Record<string, string> = {
   onpointerup: 'onPointerUp',
   onwheel: 'onWheel',
 }
-
 
 export function useRenderContext(): RenderContext {
   const { invalidate } = useThrelte()
@@ -70,6 +73,35 @@ export function build<T extends Component>(
     component.classList.set(...classList)
   })
 
-  const getControls = () => controlsContext.controls as { enabled: boolean } | undefined
-  return { handlers: createHandlers(component.handlers, getControls), controls: controlsContext }
+  // Track whether this component instance disabled the controls so we don't
+  // re-enable them on unmount if the user intentionally disabled them themselves.
+  let disabledControls = false
+
+  const disableControls = () => {
+    const c = controlsContext.controls as { enabled: boolean } | undefined
+    if (c != null) {
+      disabledControls = true
+      c.enabled = false
+    }
+  }
+
+  const enableControls = () => {
+    const c = controlsContext.controls as { enabled: boolean } | undefined
+    if (c != null) {
+      disabledControls = false
+      c.enabled = true
+    }
+  }
+
+  $effect(() => {
+    return () => {
+      if (disabledControls) enableControls()
+    }
+  })
+
+  return {
+    handlers: createHandlers(component.handlers, disableControls, enableControls),
+    disableControls,
+    enableControls,
+  }
 }

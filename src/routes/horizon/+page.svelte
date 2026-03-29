@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Container, Text } from '$lib/index.js'
+  import { Container, isDarkMode, Text } from '$lib/index.js'
   import {
     Avatar,
     Badge,
@@ -29,16 +29,14 @@
     TriangleAlertIcon,
   } from '$lib/components/lucide/index.js'
   import { T } from '@threlte/core'
-  import { interactivity } from '@threlte/extras'
-  import { isDarkMode } from '@pmndrs/uikit'
-  import { fromStore } from 'svelte/store'
+  import Fullscreen from '$lib/components/Fullscreen.svelte'
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
 
-  interactivity()
-
-  const _dark = fromStore(isDarkMode)
-  const dark = $derived(_dark.current)
-  const mutedText = $derived(dark ? '#737373' : '#525252')
-  const hoverBg = $derived(dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)')
+  const mutedText = $derived(isDarkMode.current ? '#737373' : '#525252')
+  const hoverBg = $derived(
+    isDarkMode.current ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+  )
 
   let sliderValue = $state(50)
   let checkboxChecked = $state(false)
@@ -46,6 +44,24 @@
   let radioValue = $state('x')
   let dropdownValue = $state<string>()
 </script>
+
+<Fullscreen
+  marginX={15}
+  display="flex"
+  gap={15}
+>
+  <Container
+    alignItems="flex-end"
+    marginY={15}
+  >
+    <Button onclick={() => goto(resolve('/'))}>
+      <Text
+        fontSize={13}
+        text="Back"
+      />
+    </Button>
+  </Container>
+</Fullscreen>
 
 <T.Group
   position.x={-4}
@@ -336,7 +352,7 @@
       flexDirection="column"
       gap={4}
     >
-      {#each Array.from({ length: 20 }, (_, i) => i + 1) as n}
+      {#each { length: 20 }, index (index)}
         <Container
           padding={8}
           borderRadius={8}
@@ -344,7 +360,7 @@
         >
           <Text
             fontSize={13}
-            text="Item {n}"
+            text="Item {index + 1}"
           />
         </Container>
       {/each}
