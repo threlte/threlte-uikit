@@ -61,7 +61,6 @@
 </script>
 
 <!-- Row 0: Buttons, Badge, Label, Avatar, Separator, Skeleton -->
-
 <Fullscreen
   marginX={15}
   display="flex"
