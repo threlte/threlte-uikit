@@ -1,24 +1,47 @@
-import type { Intersection } from 'three'
+import type { ScrollListeners } from '@pmndrs/uikit'
 import type { IntersectionEvent } from '@threlte/extras'
 
-export type ThreeEvent<TSourceEvent> = Intersection & {
-  nativeEvent: TSourceEvent
-  defaultPrevented?: boolean
-  stopped?: boolean
-  stopPropagation?: () => void
-}
+// Strips all uikit/native event handler properties from a Properties type so
+// that only the Threlte-typed versions (from EventHandlers below) are visible.
+// The lowercase names are included because Input/Textarea/Video expose native
+// DOM handlers (e.g. onclick: null | ...) that conflict with our typed versions.
+export type WithoutUikitHandlers<T> = Omit<
+  T,
+  | 'onClick'
+  | 'onContextMenu'
+  | 'onDblClick'
+  | 'onWheel'
+  | 'onPointerUp'
+  | 'onPointerDown'
+  | 'onPointerOver'
+  | 'onPointerOut'
+  | 'onPointerEnter'
+  | 'onPointerLeave'
+  | 'onPointerMove'
+  | 'onPointerCancel'
+  | 'onCheckedChange'
+  | 'onValueChange'
+  | 'onOpenChange'
+  | 'onScroll'
+  | 'onActiveChange'
+  | 'onHoverChange'
+  | 'onFocusChange'
+  | 'onclick'
+  | 'oncontextmenu'
+  | 'ondblclick'
+  | 'onwheel'
+  | 'onscroll'
+  | 'onpointerup'
+  | 'onpointerdown'
+  | 'onpointerover'
+  | 'onpointerout'
+  | 'onpointerenter'
+  | 'onpointerleave'
+  | 'onpointermove'
+  | 'onpointercancel'
+>
 
-export type EventMap = {
-  mouse: ThreeEvent<MouseEvent>
-  wheel: ThreeEvent<WheelEvent>
-  pointer: ThreeEvent<PointerEvent>
-}
-
-export type KeyToEvent<K extends keyof EventHandlers> = Parameters<
-  Required<EventHandlers>[K]
->[0]
-
-export type EventHandlers = {
+export interface EventHandlers {
   onclick?: (event: IntersectionEvent<MouseEvent>) => void
   oncontextmenu?: (event: IntersectionEvent<MouseEvent>) => void
   ondblclick?: (event: IntersectionEvent<MouseEvent>) => void
@@ -32,4 +55,7 @@ export type EventHandlers = {
   onpointermissed?: (event: IntersectionEvent<PointerEvent>) => void
   onpointercancel?: (event: IntersectionEvent<PointerEvent>) => void
   onwheel?: (event: IntersectionEvent<WheelEvent>) => void
+  onscroll?: ScrollListeners['onScroll']
+  onactivechange?: (active: boolean) => void
+  onhoverchange?: (hover: boolean) => void
 }

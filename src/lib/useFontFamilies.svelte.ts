@@ -1,5 +1,6 @@
+import type { FontFamilies } from '@pmndrs/uikit'
+
 import { getContext, setContext } from 'svelte'
-import type { FontFamilies } from '@pmndrs/uikit/internals'
 
 const contextKey = Symbol('font-family-context')
 
@@ -8,5 +9,5 @@ export const provideFontFamilies = (fontFamilies: FontFamilies) => {
 }
 
 export const useFontFamilies = () => {
-  return getContext<FontFamilies>(contextKey)
+  return getContext<FontFamilies | undefined>(contextKey)
 }

@@ -1,68 +1,52 @@
-import type { EventHandlers } from '@pmndrs/uikit/internals'
-import type { EventHandlers as UserEventHandlers } from '$lib/Events'
+import type { EventHandlers as EventHandlersProperties } from '@pmndrs/uikit'
 import type { ReadonlySignal } from '@preact/signals-core'
+
 import { fromStore } from 'svelte/store'
-import type { IntersectionEvent } from '@threlte/extras'
-import type { ThreeEvent } from '@pmndrs/uikit'
 
-const eventHandlerKeys: Array<keyof EventHandlers> = [
-  'onClick',
-  'onContextMenu',
-  'onDoubleClick',
-  'onPointerCancel',
-  'onPointerDown',
-  'onPointerEnter',
-  'onPointerLeave',
-  'onPointerMove',
-  'onPointerOut',
-  'onPointerOver',
-  'onPointerUp',
-  'onWheel',
-] as const
+const uikitToSvelteKeys: Array<[keyof EventHandlersProperties, string]> = [
+  ['onClick', 'onclick'],
+  ['onContextMenu', 'oncontextmenu'],
+  ['onDblClick', 'ondblclick'],
+  ['onPointerCancel', 'onpointercancel'],
+  ['onPointerDown', 'onpointerdown'],
+  ['onPointerEnter', 'onpointerenter'],
+  ['onPointerLeave', 'onpointerleave'],
+  ['onPointerMove', 'onpointermove'],
+  ['onPointerOut', 'onpointerout'],
+  ['onPointerOver', 'onpointerover'],
+  ['onPointerUp', 'onpointerup'],
+  ['onWheel', 'onwheel'],
+]
 
-const keymap: Record<keyof EventHandlers, keyof UserEventHandlers> = {
-  onClick: 'onclick',
-  onContextMenu: 'oncontextmenu',
-  onDoubleClick: 'ondblclick',
-  onPointerCancel: 'onpointercancel',
-  onPointerDown: 'onpointerdown',
-  onPointerEnter: 'onpointerenter',
-  onPointerLeave: 'onpointerleave',
-  onPointerMove: 'onpointermove',
-  onPointerOut: 'onpointerout',
-  onPointerOver: 'onpointerover',
-  onPointerUp: 'onpointerup',
-  onWheel: 'onwheel',
-}
+const disableKeys = new Set(['onpointerdown', 'onwheel'])
+const enableKeys = new Set(['onpointerup', 'onpointerleave', 'onpointercancel'])
 
 export const createHandlers = (
-  handlers: ReadonlySignal<EventHandlers>,
-  userHandlers: () => UserEventHandlers
+  handlers: ReadonlySignal<EventHandlersProperties>,
+  disableControls?: () => void,
+  enableControls?: () => void
 ) => {
-  const internalHandlers = fromStore(handlers)
-  const externalHandlers = $derived(userHandlers())
+  const reactiveHandlers = fromStore(handlers)
 
   const allHandlers = $derived.by(() => {
     const obj: Record<string, unknown> = {}
+    const h = reactiveHandlers.current
 
-    for (const key of eventHandlerKeys) {
-      const userKey = keymap[key]
-      const userHandler = externalHandlers[userKey]
-      const handler = internalHandlers.current[key]
+    for (const [uikitKey, svelteKey] of uikitToSvelteKeys) {
+      const handler = h[uikitKey]
+      if (handler != null) {
+        // uikit handlers destructure `pointerId` from the top-level event object
+        // (e.g. `({ pointerId }) => { if (pointerId == null) return; ... }`).
+        // Threlte puts the native PointerEvent in `event.nativeEvent`. DOM Event
+        // properties are not enumerable own properties, so `{ ...event.nativeEvent }`
+        // gives `{}` — pointerId is never spread in. We explicitly copy it.
 
-      if (userHandler === undefined) {
-        obj[userKey] = handler
-      } else {
-        obj[userKey] = (
-          event: IntersectionEvent<MouseEvent> &
-            IntersectionEvent<PointerEvent> &
-            IntersectionEvent<WheelEvent>
-        ) => {
-          handler?.(event as unknown as ThreeEvent)
-          if ('stopped' in event && event.stopped) {
-            return
-          }
-          userHandler(event)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        obj[svelteKey] = (event: any) => {
+          const native = event?.nativeEvent
+          if (disableKeys.has(svelteKey)) disableControls?.()
+          else if (enableKeys.has(svelteKey)) enableControls?.()
+          handler(native != null ? { pointerId: native.pointerId, ...event } : event)
         }
       }
     }
