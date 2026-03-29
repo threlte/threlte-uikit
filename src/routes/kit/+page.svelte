@@ -41,8 +41,19 @@
   } from '$lib/components/kit/index.js'
   import { T } from '@threlte/core'
   import { interactivity } from '@threlte/extras'
+  import { isDarkMode } from '@pmndrs/uikit'
+  import { fromStore } from 'svelte/store'
 
   interactivity()
+
+  const _dark = fromStore(isDarkMode)
+  const dark = $derived(_dark.current)
+  const bg = $derived(dark ? '#0a0a0a' : '#ffffff')
+  const border = $derived(dark ? '#262626' : '#e5e5e5')
+  const mutedText = $derived(dark ? '#737373' : '#525252')
+  const text = $derived(dark ? '#fafafa' : '#1a1a1a')
+  const muted = $derived(dark ? '#171717' : '#f5f5f5')
+  const accentHover = $derived(dark ? '#1f1f1f' : '#e8e8e8')
 
   let sliderValue = $state(40)
   let switchChecked = $state(false)
@@ -61,15 +72,15 @@
     flexDirection="column"
     gap={6}
     padding={12}
-    backgroundColor="#fff"
-    borderColor="#ccc"
+    backgroundColor={bg}
+    borderColor={border}
     borderWidth={1}
     width={220}
   >
     <Text
       fontSize={12}
       text="Button variants"
-      color="#666"
+      color={mutedText}
     />
     <Button>
       <Text
@@ -111,7 +122,7 @@
     <Text
       fontSize={12}
       text="Badge variants"
-      color="#666"
+      color={mutedText}
     />
     <Container
       flexDirection="row"
@@ -165,7 +176,7 @@
       <Text
         fontSize={12}
         text="Avatar"
-        color="#333"
+        color={text}
       />
     </Container>
   </Container>
@@ -179,21 +190,21 @@
     flexDirection="column"
     gap={8}
     padding={12}
-    backgroundColor="#fff"
-    borderColor="#ccc"
+    backgroundColor={bg}
+    borderColor={border}
     borderWidth={1}
     width={220}
   >
     <Text
       fontSize={12}
       text="Progress"
-      color="#666"
+      color={mutedText}
     />
     <Progress value={sliderValue} />
     <Text
       fontSize={12}
       text="Skeleton"
-      color="#666"
+      color={mutedText}
     />
     <Skeleton
       width="100%"
@@ -211,7 +222,7 @@
     <Text
       fontSize={12}
       text="Switch"
-      color="#666"
+      color={mutedText}
     />
     <Switch
       checked={switchChecked}
@@ -220,7 +231,7 @@
     <Text
       fontSize={12}
       text="Checkbox"
-      color="#666"
+      color={mutedText}
     />
     <Container
       flexDirection="row"
@@ -234,7 +245,7 @@
       <Text
         fontSize={13}
         text="Check me"
-        color="#333"
+        color={text}
       />
     </Container>
   </Container>
@@ -248,15 +259,15 @@
     flexDirection="column"
     gap={8}
     padding={12}
-    backgroundColor="#fff"
-    borderColor="#ccc"
+    backgroundColor={bg}
+    borderColor={border}
     borderWidth={1}
     width={220}
   >
     <Text
       fontSize={12}
       text="Slider"
-      color="#666"
+      color={mutedText}
     />
     <Slider
       value={sliderValue}
@@ -268,7 +279,7 @@
     <Text
       fontSize={12}
       text="RadioGroup"
-      color="#666"
+      color={mutedText}
     />
     <RadioGroup
       value={radioValue}
@@ -278,21 +289,21 @@
         ><Text
           fontSize={13}
           text="Option A"
-          color="#333"
+          color={text}
         /></RadioGroupItem
       >
       <RadioGroupItem value="b"
         ><Text
           fontSize={13}
           text="Option B"
-          color="#333"
+          color={text}
         /></RadioGroupItem
       >
       <RadioGroupItem value="c"
         ><Text
           fontSize={13}
           text="Option C"
-          color="#333"
+          color={text}
         /></RadioGroupItem
       >
     </RadioGroup>
@@ -300,7 +311,7 @@
     <Text
       fontSize={12}
       text="Toggle"
-      color="#666"
+      color={mutedText}
     />
     <Toggle
       checked={toggleChecked}
@@ -314,7 +325,7 @@
     <Text
       fontSize={12}
       text="ToggleGroup"
-      color="#666"
+      color={mutedText}
     />
     <ToggleGroup>
       <ToggleGroupItem
@@ -349,8 +360,8 @@
     flexDirection="column"
     gap={0}
     padding={0}
-    backgroundColor="#fff"
-    borderColor="#ccc"
+    backgroundColor={bg}
+    borderColor={border}
     borderWidth={1}
     width={220}
   >
@@ -361,7 +372,7 @@
       <Text
         fontSize={12}
         text="Accordion"
-        color="#666"
+        color={mutedText}
       />
     </Container>
     <Accordion width="100%">
@@ -370,14 +381,14 @@
           <Text
             fontSize={13}
             text="Is it accessible?"
-            color="#333"
+            color={text}
           />
         </AccordionTrigger>
         <AccordionContent paddingX={12}>
           <Text
             fontSize={13}
             text="Yes. It adheres to the WAI-ARIA design pattern."
-            color="#555"
+            color={mutedText}
           />
         </AccordionContent>
       </AccordionItem>
@@ -386,14 +397,14 @@
           <Text
             fontSize={13}
             text="Is it styled?"
-            color="#333"
+            color={text}
           />
         </AccordionTrigger>
         <AccordionContent paddingX={12}>
           <Text
             fontSize={13}
             text="Yes. It comes with default styles."
-            color="#555"
+            color={mutedText}
           />
         </AccordionContent>
       </AccordionItem>
@@ -408,8 +419,8 @@
   <Container
     flexDirection="column"
     gap={0}
-    backgroundColor="#fff"
-    borderColor="#ccc"
+    backgroundColor={bg}
+    borderColor={border}
     borderWidth={1}
     width={240}
     padding={12}
@@ -417,7 +428,7 @@
     <Text
       fontSize={12}
       text="Tabs"
-      color="#666"
+      color={mutedText}
       marginBottom={8}
     />
     <Tabs
@@ -446,14 +457,14 @@
         <Text
           fontSize={13}
           text="Manage your account settings."
-          color="#555"
+          color={mutedText}
         />
       </TabsContent>
       <TabsContent value="password">
         <Text
           fontSize={13}
           text="Change your password here."
-          color="#555"
+          color={mutedText}
         />
       </TabsContent>
     </Tabs>
@@ -483,7 +494,7 @@
       <Text
         fontSize={13}
         text="Card content area."
-        color="#555"
+        color={mutedText}
       />
     </CardContent>
     <CardFooter>
@@ -552,14 +563,14 @@
       flexDirection="column"
       gap={6}
       padding={12}
-      backgroundColor="#fff"
-      borderColor="#ccc"
+      backgroundColor={bg}
+      borderColor={border}
       borderWidth={1}
     >
       <Text
         fontSize={12}
         text="KitInput / KitTextarea"
-        color="#666"
+        color={mutedText}
       />
       <KitInput placeholder="Email" />
       <KitTextarea placeholder="Type here.." />
@@ -577,15 +588,15 @@
     flexDirection="column"
     gap={6}
     padding={12}
-    backgroundColor="#fff"
-    borderColor="#ccc"
+    backgroundColor={bg}
+    borderColor={border}
     borderWidth={1}
     width={220}
   >
     <Text
       fontSize={12}
       text="Scrollable list"
-      color="#666"
+      color={mutedText}
     />
     <Container
       overflow="scroll"
@@ -596,14 +607,14 @@
       {#each Array.from({ length: 20 }, (_, i) => i + 1) as n}
         <Container
           padding={8}
-          backgroundColor="#f5f5f5"
+          backgroundColor={muted}
           borderRadius={4}
-          hover={{ backgroundColor: '#e8e8e8' }}
+          hover={{ backgroundColor: accentHover }}
         >
           <Text
             fontSize={13}
             text="Item {n}"
-            color="#333"
+            color={text}
           />
         </Container>
       {/each}

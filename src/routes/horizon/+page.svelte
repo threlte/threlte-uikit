@@ -29,9 +29,16 @@
     TriangleAlertIcon,
   } from '$lib/components/lucide/index.js'
   import { T } from '@threlte/core'
-  import { OrbitControls, interactivity } from '@threlte/extras'
+  import { interactivity } from '@threlte/extras'
+  import { isDarkMode } from '@pmndrs/uikit'
+  import { fromStore } from 'svelte/store'
 
   interactivity()
+
+  const _dark = fromStore(isDarkMode)
+  const dark = $derived(_dark.current)
+  const mutedText = $derived(dark ? '#737373' : '#525252')
+  const hoverBg = $derived(dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)')
 
   let sliderValue = $state(50)
   let checkboxChecked = $state(false)
@@ -53,7 +60,7 @@
     <Text
       fontSize={12}
       text="Button variants"
-      color="#666"
+      color={mutedText}
     />
     <Button variant="primary">
       <Text
@@ -86,7 +93,7 @@
     <Text
       fontSize={12}
       text="Badge"
-      color="#666"
+      color={mutedText}
     />
     <Container
       display="flex"
@@ -120,7 +127,7 @@
     <Text
       fontSize={12}
       text="Avatar"
-      color="#666"
+      color={mutedText}
     />
     <Container
       flexDirection="row"
@@ -144,7 +151,7 @@
     <Text
       fontSize={12}
       text="Icon"
-      color="#666"
+      color={mutedText}
     />
     <Container
       flexDirection="row"
@@ -173,7 +180,7 @@
     <Text
       fontSize={12}
       text="Checkbox"
-      color="#666"
+      color={mutedText}
     />
     <Checkbox
       checked={checkboxChecked}
@@ -182,7 +189,7 @@
     <Text
       fontSize={12}
       text="Toggle"
-      color="#666"
+      color={mutedText}
     />
     <Toggle
       checked={toggleChecked}
@@ -191,13 +198,13 @@
     <Text
       fontSize={12}
       text="ProgressBar"
-      color="#666"
+      color={mutedText}
     />
     <ProgressBar value={sliderValue} />
     <Text
       fontSize={12}
       text="Slider"
-      color="#666"
+      color={mutedText}
     />
     <Slider
       value={sliderValue}
@@ -208,7 +215,7 @@
     <Text
       fontSize={12}
       text="IconIndicator"
-      color="#666"
+      color={mutedText}
     />
     <Container
       flexDirection="row"
@@ -235,7 +242,7 @@
     <Text
       fontSize={12}
       text="RadioGroup"
-      color="#666"
+      color={mutedText}
     />
     <RadioGroup
       value={radioValue}
@@ -257,7 +264,7 @@
     <Text
       fontSize={12}
       text="Input"
-      color="#666"
+      color={mutedText}
     />
     <Input
       variant="text"
@@ -268,7 +275,7 @@
     <Text
       fontSize={12}
       text="InputField"
-      color="#666"
+      color={mutedText}
     />
     <InputField
       label="Email"
@@ -280,7 +287,7 @@
     <Text
       fontSize={12}
       text="Dropdown"
-      color="#666"
+      color={mutedText}
     />
     <Dropdown
       value={dropdownValue}
@@ -321,7 +328,7 @@
     <Text
       fontSize={12}
       text="Scrollable list"
-      color="#666"
+      color={mutedText}
     />
     <Container
       overflow="scroll"
@@ -333,7 +340,7 @@
         <Container
           padding={8}
           borderRadius={8}
-          hover={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+          hover={{ backgroundColor: hoverBg }}
         >
           <Text
             fontSize={13}
