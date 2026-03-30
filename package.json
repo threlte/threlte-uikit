@@ -23,7 +23,7 @@
     "prettier": "prettier --check",
     "lint": "svelte-kit sync && prettier --check . && eslint .",
     "format": "prettier --write . && eslint . --fix",
-    "release": "changeset publish --provenance"
+    "release": "npm publish --provenance --access public && changeset tag"
   },
   "exports": {
     ".": {
