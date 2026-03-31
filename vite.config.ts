@@ -9,7 +9,7 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,ts}'],
     browser: {
       provider: playwright(),
-      instances: [{ browser: 'chromium' }],
+      instances: [{ browser: 'chromium', context: { deviceScaleFactor: 1 } }],
     },
   },
 })
