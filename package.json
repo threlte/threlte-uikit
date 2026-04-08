@@ -2,18 +2,25 @@
   "name": "threlte-uikit",
   "version": "2.0.0",
   "description": "UI toolkit for Threlte, built on @pmndrs/uikit",
-  "keywords": ["threlte", "three.js", "svelte", "ui", "uikit", "3d"],
+  "keywords": [
+    "threlte",
+    "three.js",
+    "svelte",
+    "ui",
+    "uikit",
+    "3d"
+  ],
   "license": "MIT",
   "type": "module",
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/michealparks/threlte-uikit.git"
+    "url": "git+https://github.com/threlte/threlte-uikit.git"
   },
   "bugs": {
-    "url": "https://github.com/michealparks/threlte-uikit/issues"
+    "url": "https://github.com/threlte/threlte-uikit/issues"
   },
-  "homepage": "https://github.com/michealparks/threlte-uikit#readme",
+  "homepage": "https://github.com/threlte/threlte-uikit#readme",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
