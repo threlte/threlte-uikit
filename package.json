@@ -1,7 +1,10 @@
 {
   "name": "threlte-uikit",
-  "version": "2.0.0",
+  "license": "MIT",
   "description": "UI toolkit for Threlte, built on @pmndrs/uikit",
+  "version": "2.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.11.1",
   "keywords": [
     "threlte",
     "three.js",
@@ -10,8 +13,6 @@
     "uikit",
     "3d"
   ],
-  "license": "MIT",
-  "type": "module",
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
