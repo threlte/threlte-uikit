@@ -13,17 +13,15 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'pnpm'
+          node-version: 24
+
+      - name: Install pnpm 🔧
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: true
 
       - name: Install 🔧
         run: pnpm i
@@ -38,20 +36,15 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'pnpm'
+          node-version: 24
 
-      - name: Install 🔧
-        run: pnpm i
+      - name: Install pnpm 🔧
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: true
 
       - name: Lint 💅
         run: pnpm lint
@@ -63,20 +56,15 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 10
-          run_install: false
-
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: 'pnpm'
+          node-version: 24
 
-      - name: Install 🔧
-        run: pnpm i
+      - name: Install pnpm 🔧
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: true
 
       - name: Install playwright 🔧
         run: npx playwright install chromium --with-deps
